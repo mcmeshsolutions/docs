@@ -1,0 +1,649 @@
+<title>mcmesh: marketing and social copy</title>
+<style>
+:root{
+  --bg:#ECF0F0;--panel:#E2E8E8;--ink:#0F1B1D;--mute:#4F6062;--rule:#C3CFCF;
+  --accent:#2B4FD1;--accent-ink:#FFFFFF;--signal:#C93C26;
+  --mono:ui-monospace,"JetBrains Mono","Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0D1517;--panel:#142022;--ink:#E4EDED;--mute:#97A9AB;--rule:#243336;--accent:#8CA0FF;--accent-ink:#0D1517;--signal:#FF7A5F}
+}
+:root[data-theme="dark"]{--bg:#0D1517;--panel:#142022;--ink:#E4EDED;--mute:#97A9AB;--rule:#243336;--accent:#8CA0FF;--accent-ink:#0D1517;--signal:#FF7A5F}
+:root[data-theme="light"]{--bg:#ECF0F0;--panel:#E2E8E8;--ink:#0F1B1D;--mute:#4F6062;--rule:#C3CFCF;--accent:#2B4FD1;--accent-ink:#FFFFFF;--signal:#C93C26}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+a{color:inherit}
+.shell{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:3rem;max-width:76rem;margin:0 auto;padding:2rem 1.5rem 6rem}
+.rail{position:sticky;top:2rem;align-self:start;display:flex;flex-direction:column;gap:.15rem;font:500 .78rem/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.rail b{color:var(--accent);font-weight:600;margin-bottom:.9rem}
+.rail a{color:var(--mute);text-decoration:none;padding:.3rem 0;border-top:1px solid var(--rule)}
+.rail a:hover{color:var(--ink)}
+main{display:flex;flex-direction:column;gap:5rem;min-width:0}
+section{display:flex;flex-direction:column;gap:1.25rem;scroll-margin-top:2rem}
+h2{margin:0;font:650 1.7rem/1.15 var(--sans);letter-spacing:-.015em;text-wrap:balance}
+h3{margin:0;font:600 .78rem/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+p{margin:0;max-width:65ch;text-wrap:pretty}
+.lede{font-size:1.15rem;line-height:1.55;max-width:58ch}
+.mute{color:var(--mute)}
+.mono{font-family:var(--mono)}
+
+/* hero */
+.hero{gap:1.75rem}
+.eyebrow{font:500 .78rem/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+#mark{width:min(100%,34rem);height:auto;display:block}
+.thesis{font:650 clamp(1.7rem,3.6vw,2.6rem)/1.1 var(--sans);letter-spacing:-.02em;max-width:20ch;text-wrap:balance;margin:0}
+.line{border:1px solid var(--rule);background:var(--panel);padding:1.1rem 1.25rem 1rem;display:flex;flex-direction:column;gap:.9rem}
+.track{position:relative;height:3.2rem;display:flex}
+.seg{height:100%;display:flex;align-items:center;padding:0 .75rem;font:500 .78rem/1 var(--mono);white-space:nowrap;overflow:hidden;border-right:2px solid var(--bg)}
+.seg:nth-child(1){background:var(--accent);color:var(--accent-ink)}
+.seg:nth-child(2){background:color-mix(in srgb,var(--accent) 62%,var(--bg));color:var(--accent-ink)}
+.seg:nth-child(3){background:color-mix(in srgb,var(--accent) 34%,var(--bg));color:var(--ink)}
+.seg:last-child{border-right:0}
+.cut{position:absolute;top:-.45rem;bottom:-.45rem;width:2px;background:var(--signal)}
+.head{position:absolute;top:-.9rem;bottom:-.9rem;width:2px;background:var(--ink);left:0}
+.head::after{content:"";position:absolute;left:-4px;top:-2px;width:10px;height:10px;background:var(--ink)}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 2rem;font:500 .82rem/1.4 var(--mono)}
+.readout span:first-child{color:var(--accent)}
+.fine{font:400 .78rem/1.4 var(--mono);color:var(--mute)}
+
+/* steps: a real sequence */
+.steps{display:flex;flex-direction:column;border-top:1px solid var(--rule);margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{display:grid;grid-template-columns:2.5rem 11rem minmax(0,1fr);gap:1rem;padding:1rem 0;border-bottom:1px solid var(--rule);counter-increment:s}
+.steps li::before{content:counter(s);font:600 .9rem/1.6 var(--mono);color:var(--signal)}
+.steps strong{font-weight:600}
+
+/* definition table */
+.defs{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.defs>div{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--rule)}
+.defs dt{font:600 .78rem/1.6 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.defs dd{margin:0;display:flex;flex-direction:column;gap:.45rem}
+.defs dd p{max-width:68ch}
+
+/* audience + status */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem}
+.two>div{display:flex;flex-direction:column;gap:.6rem}
+ul.plain{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.55rem}
+ul.plain li{padding-left:1.1rem;position:relative;max-width:60ch}
+ul.plain li::before{content:"";position:absolute;left:0;top:.7em;width:.45rem;height:2px;background:var(--accent)}
+.no li::before{background:var(--signal)}
+
+/* copy bank */
+.bank{display:flex;flex-direction:column;gap:1.75rem}
+.item{display:flex;flex-direction:column;gap:.5rem}
+.itemhead{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.item pre{margin:0;padding:1rem 1.1rem;background:var(--panel);border:1px solid var(--rule);font:400 .92rem/1.6 var(--sans);white-space:pre-wrap;overflow-wrap:anywhere;max-width:none}
+button.copy{font:600 .74rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:.5rem .8rem;cursor:pointer}
+button.copy:hover{background:var(--ink);color:var(--bg)}
+button.copy[data-done="1"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.taglines{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.taglines div{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--rule);font:600 1.15rem/1.3 var(--sans);letter-spacing:-.01em}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chips span{font:500 .8rem/1 var(--mono);border:1px solid var(--rule);padding:.4rem .6rem}
+
+/* vision */
+.part{font:600 .78rem/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--signal);border-top:2px solid var(--ink);padding-top:.8rem;margin-top:1rem}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font:500 .78rem/1.2 var(--mono);color:var(--mute)}
+.legend span{display:inline-flex;align-items:center;gap:.5rem}
+.mk{display:inline-block;width:.8rem;height:.8rem;border:2px solid var(--accent);flex:none}
+.mk.built{background:var(--accent)}
+.mk.written{background:linear-gradient(135deg,var(--accent) 50%,transparent 50%)}
+.mk.research{border-style:dashed;border-color:var(--mute)}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.board>div{padding:1rem 1rem 1.2rem 0;display:flex;flex-direction:column;gap:.6rem}
+.board>div+div{padding-left:1rem;border-left:1px solid var(--rule)}
+.board h3{display:flex;align-items:center;gap:.5rem;color:var(--ink)}
+.board ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.92rem;line-height:1.4}
+.fig{display:flex;flex-direction:column;gap:.6rem;margin:0}
+.fig svg{width:100%;max-width:34rem;height:auto;display:block}
+.fig figcaption{font:400 .78rem/1.4 var(--mono);color:var(--mute);max-width:75ch}
+.panelbox{border:1px solid var(--rule);background:var(--panel);padding:1rem 1.1rem}
+.tile-h{fill:var(--ink)}.tile-n{fill:var(--accent)}.tile-f{fill:color-mix(in srgb,var(--accent) 32%,var(--bg))}
+.svgt{font:500 11px var(--mono);fill:var(--ink)}.svgm{font:500 10px var(--mono);fill:var(--mute)}
+.halo{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5}
+.dot{fill:var(--ink)}.link{stroke:var(--signal);stroke-width:2;stroke-dasharray:3 4;fill:none}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem}
+.cols3>div{display:flex;flex-direction:column;gap:.5rem;border-top:1px solid var(--rule);padding-top:.8rem}
+.cols3 h3{color:var(--ink)}
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;counter-reset:st}
+.stages>div{display:flex;flex-direction:column;gap:.5rem;padding:1rem 1rem 1rem 0}
+.stages>div+div{padding-left:1rem;border-left:1px solid var(--rule)}
+.bar{height:.7rem;background:var(--rule);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--accent)}
+.ladder{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.ladder>div{display:grid;grid-template-columns:11rem 7.5rem minmax(0,1fr);gap:1.25rem;padding:.9rem 0;border-bottom:1px solid var(--rule);align-items:start}
+.ladder b{font-weight:600}
+.depth{display:flex;gap:3px;padding-top:.35rem}
+.depth i{width:1rem;height:.5rem;background:var(--rule)}
+.depth i.on{background:var(--accent)}
+.state{font:500 .74rem/1.4 var(--mono);color:var(--mute);display:flex;align-items:center;gap:.4rem;margin-top:.15rem}
+pre.code{margin:0;padding:1rem 1.1rem;background:var(--panel);border:1px solid var(--rule);font:400 .84rem/1.55 var(--mono);overflow-x:auto;white-space:pre;max-width:none}
+.rowlist{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.rowlist>div{display:grid;grid-template-columns:12rem minmax(0,1fr) 8.5rem;gap:1.25rem;padding:.75rem 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.rowlist b{font-weight:600}
+.rowlist .state{margin:0}
+.never li::before{background:var(--signal)}
+@media (max-width:52rem){
+  .board,.stages,.cols3{grid-template-columns:minmax(0,1fr)}
+  .board>div+div,.stages>div+div{padding-left:0;border-left:0;border-top:1px solid var(--rule)}
+  .ladder>div,.rowlist>div{grid-template-columns:minmax(0,1fr);gap:.4rem}
+}
+@media (max-width:52rem){
+  .shell{grid-template-columns:minmax(0,1fr);gap:1.5rem}
+  .rail{position:static;flex-direction:row;flex-wrap:wrap;gap:.25rem 1rem}
+  .rail b{width:100%;margin:0}
+  .rail a{border:0}
+  .steps li{grid-template-columns:2rem minmax(0,1fr)}
+  .steps li strong{grid-column:2}
+  .steps li span{grid-column:2}
+  .defs>div{grid-template-columns:minmax(0,1fr);gap:.4rem}
+  .two{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<div class="shell">
+<nav class="rail" aria-label="Sections">
+  <b>mcmesh</b>
+  <a href="#pitch">Pitch</a>
+  <a href="#problem">Problem</a>
+  <a href="#handover">Handover</a>
+  <a href="#inside">What is inside</a>
+  <a href="#audience">Who it is for</a>
+  <a href="#status">Honest status</a>
+  <a href="#road">Road ahead</a>
+  <a href="#seamless">Seamless</a>
+  <a href="#compute">Shared compute</a>
+  <a href="#devs">For developers</a>
+  <a href="#mods">Mod support</a>
+  <a href="#ecosystem">Ecosystem</a>
+  <a href="#hosted">Hosted plans</a>
+  <a href="#limits">Hard limits</a>
+  <a href="#copy">Copy bank</a>
+</nav>
+
+<main>
+<section class="hero" id="pitch">
+  <div class="eyebrow">Self-hosted multiplayer persistence / NeoForge 1.21.1 / early prototype</div>
+  <svg id="mark" role="img" aria-label="mcmesh" viewBox="0 0 35 5"></svg>
+  <h1 class="thesis">The world stays up. The host can change.</h1>
+  <p class="lede">mcmesh keeps a Minecraft world on a small gateway and lets whichever player is online and strongest host it from their own machine. When they log off, the next player takes over from the last save. Players never touch port forwarding, and nobody has to leave a PC running overnight.</p>
+
+  <div class="line" aria-label="Illustration of a world passing between three hosts">
+    <div class="track" id="track"></div>
+    <div class="readout"><span id="who">host</span><span id="rev">revision</span><span id="note"></span></div>
+    <div class="fine">Illustration of one world line across three hosts. Red cuts mark a handover: final commit, next host boots from it. Not a recording.</div>
+  </div>
+</section>
+
+<section id="problem">
+  <h3>The problem</h3>
+  <h2>A friend-group server dies the night its owner goes to bed.</h2>
+  <p>Someone hosts from their own PC, so the world exists only while that PC is on. Someone else rents a VPS, so one person pays every month and everyone else asks permission. A third person tries port forwarding and discovers their ISP put them behind CGNAT.</p>
+  <p>mcmesh treats the world as the durable thing and the machine as replaceable. The world lives in a content-addressed store on a gateway you run. Hosting becomes a turn that passes from player to player, not a job one person owns.</p>
+</section>
+
+<section id="handover">
+  <h3>What happens when the host leaves</h3>
+  <h2>Five steps, all automatic.</h2>
+  <ol class="steps">
+    <li><strong>Sync</strong><span>Before hosting, the mod pulls the newest revision from the gateway. If it already holds an older copy it fetches only the changed chunks, and it falls back to a full download if anything does not match.</span></li>
+    <li><strong>Lease</strong><span>The gateway grants one host at a time, with an epoch number that makes a stale host harmless. Election weighs a measured hardware score, and a challenger must be clearly stronger (a 1.3x margin) before it may take over a running world.</span></li>
+    <li><strong>Play</strong><span>Guests connect to the gateway address. A ticket gate checks each login, and the relay forwards traffic to the current host over a tunnel the host opened outward. Voice chat UDP rides the same relay.</span></li>
+    <li><strong>Save</strong><span>Changed chunks stream to the gateway as the host plays. Every revision is hash-chained, commits are signed with the host's device key, and a sanity gate refuses a commit that would wipe most of a world.</span></li>
+    <li><strong>Hand over</strong><span>The host commits a final revision, the gateway elects the next one, and guests reconnect to the same address behind a "switching host" screen instead of a disconnect error. Players are reconnected, not teleported across; seamless transfer is still research.</span></li>
+  </ol>
+</section>
+
+<section id="inside">
+  <h3>What is inside</h3>
+  <h2>Built around not losing the world.</h2>
+  <dl class="defs">
+    <div><dt>Data safety</dt><dd>
+      <p>Every autosave is a revision. Restoring one from the web panel adds a new save on top, so a restore can be undone and nothing is deleted. Scheduled scrub and incremental backup, crash recovery to the last intact revision, and a world zip export keep you from being locked in.</p>
+      <p>A world over its storage quota pauses uploads. It never deletes anything, and existing revisions stay downloadable.</p></dd></div>
+    <div><dt>Hosting</dt><dd>
+      <p>Hardware-ranked election, load shedding that lowers view and simulation distance while TPS is low, battery-aware handover for Linux laptops, and an optional vote when players want to move the world themselves.</p>
+      <p>An anchor node, a small always-on machine, can sit in standby and take the world when no desktop is online, then yield when a capable player returns.</p></dd></div>
+    <div><dt>Operating</dt><dd>
+      <p>Per-user and per-world quotas, an append-only audit log, suspend and ban, maintenance mode, Prometheus metrics, a public status page, signed webhooks, scoped API keys, rate limits and expiring invite links. Admins get a usage page in the panel.</p></dd></div>
+    <div><dt>Modpacks</dt><dd>
+      <p>Per-pack signed auto-update with a pinned author key and an opt-out, a per-pack allowlist that keeps an incompatible host from taking the world, and a memory pre-check before hosting or joining.</p></dd></div>
+    <div><dt>Trust</dt><dd>
+      <p>Ed25519-signed commits, a hash chain over every revision, and self-hosting parity: the gateway binary has every feature, limits are quotas you set, and nothing is compiled in as a cap.</p></dd></div>
+  </dl>
+</section>
+
+<section id="audience">
+  <h3>Who it is for</h3>
+  <h2>Groups that outlive any one computer.</h2>
+  <div class="two">
+    <div>
+      <h3>Good fit</h3>
+      <ul class="plain">
+        <li>Friend groups on a shared modpack who play at different hours.</li>
+        <li>Self-hosters with a spare box or a cheap VPS who want the world safe and the load shared.</li>
+        <li>Communities that want a server with no single owner and no single point of failure.</li>
+        <li>Modpack authors who want players to stay on the exact pack, updated and signed.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Not for you yet</h3>
+      <ul class="plain no">
+        <li>Anyone who needs vanilla or Bedrock clients with no mod. The mod is required.</li>
+        <li>Loaders and versions other than NeoForge 1.21.1. A second target is planned, not built.</li>
+        <li>Players who want a hosted service. Today you run the gateway yourself.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="status">
+  <h3>Honest status</h3>
+  <h2>A working prototype, first live-tested on two machines.</h2>
+  <p>Say this plainly in any post. The audience for this project reads the repo, and trust is the product.</p>
+  <div class="two">
+    <div>
+      <h3>Built and covered by tests</h3>
+      <ul class="plain">
+        <li>Gateway: lease and election, write-ahead log, content store, sanity gate, quotas, relay, API, panel.</li>
+        <li>A seeded chaos harness that simulates hosts dying mid-commit.</li>
+        <li>Mod core: signing, pack updater, load shedding logic.</li>
+        <li>First live run on two real machines, a desktop and a laptop. It found real bugs, which are fixed; a full handover test is still on the list.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Written, not yet run in a live game</h3>
+      <ul class="plain no">
+        <li>Load shedding, battery handover, anchor standby, host-change vote.</li>
+        <li>Incremental world sync and the signed pack swap at game exit.</li>
+        <li>Seamless handover without any reconnect: research only.</li>
+        <li>Hosted plans, Bedrock crossplay, a Fabric port: not started.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fine">Not affiliated with Mojang or Microsoft. Every item above has a step-by-step test in the repo's test plan.</p>
+</section>
+
+<div class="part">Part two: where this goes</div>
+
+<section id="road">
+  <h3>The road ahead</h3>
+  <h2>Four levels of certainty, kept apart on purpose.</h2>
+  <p>A roadmap that mixes shipped work with wishes is marketing fiction. This one separates what runs today from what is only designed, and says which ideas still need a measurement before anyone builds them.</p>
+  <div class="legend" aria-label="Legend">
+    <span><i class="mk built"></i>built and tested here</span>
+    <span><i class="mk written"></i>written, needs a live game test</span>
+    <span><i class="mk"></i>planned and scoped</span>
+    <span><i class="mk research"></i>research, unproven</span>
+  </div>
+  <div class="board">
+    <div>
+      <h3><i class="mk built"></i>Built</h3>
+      <ul>
+        <li>Leases, election, write-ahead log, content store</li>
+        <li>Sanity gate and hash-chained revisions</li>
+        <li>Quotas, audit log, ban, maintenance mode</li>
+        <li>Relay with ticket gate, voice UDP, rate limits</li>
+        <li>Signed commits, scoped API keys, status page</li>
+        <li>Backup, scrub, recover, world zip export</li>
+      </ul>
+    </div>
+    <div>
+      <h3><i class="mk written"></i>Written</h3>
+      <ul>
+        <li>Incremental world sync</li>
+        <li>Load shedding and battery handover</li>
+        <li>Anchor standby and host-change vote</li>
+        <li>Crash report, safe boot, auto-recover</li>
+        <li>Signed pack auto-update and swap</li>
+        <li>Invite links and clipboard redeem</li>
+      </ul>
+    </div>
+    <div>
+      <h3><i class="mk"></i>Planned</h3>
+      <ul>
+        <li>Live chunk streaming and lazy bootstrap</li>
+        <li>Tick quarantine for runaway machines</li>
+        <li>Compat manifests and the mod API</li>
+        <li>Fabric and a 1.20.1 port</li>
+        <li>Sidecars: Discord, map renderer, offsite backup</li>
+        <li>Rollback by player, block log, templates</li>
+      </ul>
+    </div>
+    <div>
+      <h3><i class="mk research"></i>Research</h3>
+      <ul>
+        <li>Seamless handover without a reconnect</li>
+        <li>Distributed world generation</li>
+        <li>Sub-tick offload of read-only work</li>
+        <li>Multi-host sharding of one world</li>
+        <li>Federation between gateways</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="seamless">
+  <h3>Seamless handover</h3>
+  <h2>From a reconnect screen to no screen at all.</h2>
+  <p>Today a handover reconnects players behind a "switching host" screen. The plan is to shrink that gap in three steps, and to measure each before promising it. The vision figure for the last step comes from our own design notes and is not yet measured.</p>
+  <div class="stages" role="img" aria-label="Three stages of handover, from reconnect screen to ghost standby">
+    <div>
+      <h3>Now</h3>
+      <div class="bar"><i style="width:100%"></i></div>
+      <b>Reconnect behind a screen</b>
+      <p>The final commit lands, the next host boots, guests reconnect to the same address. Nothing is lost; players see a pause.</p>
+    </div>
+    <div>
+      <h3>Next</h3>
+      <div class="bar"><i style="width:55%"></i></div>
+      <b>Shadow pre-boot and transfer packet</b>
+      <p>The incoming host hydrates in the background while the old one keeps ticking. On 1.20.5 and newer, the transfer packet moves guests without a manual reconnect, with the screen as the fallback below that.</p>
+    </div>
+    <div>
+      <h3>Research</h3>
+      <div class="bar"><i style="width:18%"></i></div>
+      <b>Ghost standby</b>
+      <p>A guest's already loaded client registries start the server on takeover. The design notes aim for under 1.5 seconds; that number is a target until it is measured.</p>
+    </div>
+  </div>
+  <p class="fine">Bar length is relative pause time as designed, not a benchmark.</p>
+</section>
+
+<section id="compute">
+  <h3>Shared compute</h3>
+  <h2>Idle machines are a resource. Use them without risking the world.</h2>
+  <p>A mesh has more than one computer in it. Most of the time only one is working hard. The research track asks how much of the rest can help, under one rule that does not bend: the server loop stays vanilla-shaped on a single host, and mod block entities never tick out of step across machines.</p>
+
+  <div class="cols3">
+    <div>
+      <h3>Distributed world generation</h3>
+      <p>Terrain a player is about to reach is generated ahead of them on other machines. The world is cut into macro-tiles of 8x8 or 16x16 chunks with a halo for structures and features, and tiles are leased by arrival time: urgent ones on the host, the near horizon on strong desktops, the far horizon on laptops or the anchor. Workers run at minimum priority and stand down when free heap falls under 25% or frames under 45 per second.</p>
+      <p class="mute">Open question: whether results stay identical to the host's own generation across seeds and mod worldgen. Nothing ships until that is proven.</p>
+    </div>
+    <div>
+      <h3>Sub-tick offload</h3>
+      <p>Read-only work such as pathfinding, lighting and mob sensing is computed by a peer, which returns intents. The host thread applies them in order, so the world remains deterministic on one machine.</p>
+      <p class="mute">Needs a measured case first. If transport costs more than the work, it does not ship.</p>
+    </div>
+    <div>
+      <h3>Sharding by islands</h3>
+      <p>Groups of active players, forced chunks and linked contraptions become islands with a 3-chunk safety halo. Each island could be ticked on its own host. A write outside the owned set is trapped, and when a mod couples two islands they merge back automatically.</p>
+      <p class="mute">The largest item on the list. Everything in the mod API about coupling and affinity exists to feed it, and none of that ships before this is proven.</p>
+    </div>
+  </div>
+
+  <figure class="fig">
+    <svg id="tiles" viewBox="0 0 340 190" role="img" aria-label="Chunk tiles around a player, coloured by which machine would generate them"></svg>
+    <figcaption>Worldgen rings around a player. Dark: urgent, on the host. Blue: near horizon, strong desktops. Pale: far horizon, laptops and anchors. Schematic of the design, not a measurement.</figcaption>
+  </figure>
+
+  <figure class="fig">
+    <svg viewBox="0 0 400 170" role="img" aria-label="Two islands of players ticked on separate hosts, merging when a mod links them">
+      <rect class="halo" x="14" y="22" width="150" height="110" rx="8"/>
+      <rect class="halo" x="236" y="22" width="150" height="110" rx="8"/>
+      <circle class="dot" cx="50" cy="60" r="5"/><circle class="dot" cx="82" cy="92" r="5"/><circle class="dot" cx="124" cy="62" r="5"/>
+      <circle class="dot" cx="272" cy="70" r="5"/><circle class="dot" cx="330" cy="98" r="5"/>
+      <path class="link" d="M124 62 C 180 30, 220 30, 272 70"/>
+      <text class="svgt" x="14" y="14">island A, host 1</text>
+      <text class="svgt" x="236" y="14">island B, host 2</text>
+      <text class="svgm" x="198" y="84" text-anchor="middle">a mod links them</text>
+      <text class="svgm" x="200" y="156" text-anchor="middle">linked islands merge back onto one host</text>
+    </svg>
+    <figcaption>Islands, schematic. Dashed outline is the safety halo; the red dotted line is a coupling that forces a merge.</figcaption>
+  </figure>
+</section>
+
+<section id="devs">
+  <h3>For developers</h3>
+  <h2>Five ways in, from a JSON file to a sandboxed plugin.</h2>
+  <p>Most mods need nothing. Some need a few lines of declaration. A handful need real code. The platform is staged so each step is useful alone, and each deeper step costs more review before it can run.</p>
+  <div class="ladder">
+    <div><div><b>Compat manifest</b><div class="state"><i class="mk"></i>planned</div></div><div class="depth" title="reach: 1 of 5"><i class="on"></i><i></i><i></i><i></i><i></i></div><p>A JSON file inside your mod jar says which files to sync and with what scope, which UDP ports to relay, which blocks need pinning, and which entities must never be removed. No code, no dependency.</p></div>
+    <div><div><b>Gateway API plane</b><div class="state"><i class="mk written"></i>partly built</div></div><div class="depth" title="reach: 2 of 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><p>Scoped API keys, an event long poll, signed webhooks, read access to revisions, manifests and blobs, and Prometheus metrics. Write a bot in any language and run it as a sidecar. Discord status, map rendering and offsite backup are meant to live here, outside the gateway process.</p></div>
+    <div><div><b>Java mod API</b><div class="state"><i class="mk"></i>planned</div></div><div class="depth" title="reach: 3 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><p>A small MIT-licensed library. Ask whether the world is hosted here or by a peer, listen for pre-migrate and post-promote events, store data that follows the world, and hand a snapshot of your state to the next host. Every call turns into a no-op when mcmesh is absent, so your mod still runs on a plain server.</p></div>
+    <div><div><b>Panel widgets</b><div class="state"><i class="mk"></i>planned</div></div><div class="depth" title="reach: 3 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><p>Declare a toggle, slider, gauge or action button as JSON and it shows up in the web panel and the in-game settings screen. For more, mount a Web Component in a named slot with the panel's theme tokens.</p></div>
+    <div><div><b>Gateway plugins</b><div class="state"><i class="mk research"></i>security review first</div></div><div class="depth" title="reach: 5 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><p>Custom storage backends, auth providers, relay stages and election hooks, running as sandboxed Wasm with capability-gated imports and CPU limits. Native plugins stay off unless an operator allowlists an exact hash. Only built if the sidecar plane turns out not to cover the demand.</p></div>
+  </div>
+  <div class="two">
+    <div>
+      <h3>Compat manifest, planned format</h3>
+      <pre class="code">{
+  "schema": 1,
+  "aux_sync_paths": [
+    { "glob": "data/mymod/*.dat",
+      "scope": "WORLD_GLOBAL" }
+  ],
+  "udp_channels": [
+    { "id": "mymod-voice", "port": 24455 }
+  ],
+  "quarantine_rules": {
+    "never_delete": ["mymod:vault"],
+    "max_tick_micros": 8000
+  }
+}</pre>
+    </div>
+    <div>
+      <h3>Mod API, proposed shape</h3>
+      <pre class="code">var mesh = MeshApi.current();
+
+if (mesh.mode() == SessionMode.MESH_HOST) {
+  mesh.aux("mymod").put("quests", data);
+}
+
+MeshEvents.preMigrate(e ->
+  e.snapshot("mymod", myState.encode()));</pre>
+      <p class="fine">Names are a design sketch. The final API will differ.</p>
+    </div>
+  </div>
+  <p>Tooling is part of the plan, not an afterthought: a sandbox gateway with a web inspector and chaos presets (host crash, jitter, an epoch split), a command that diffs two revisions, a Gradle plugin that wires a local cluster and an anchor into your run configs, and in-game commands to simulate a handover.</p>
+</section>
+
+<section id="mods">
+  <h3>Mod support</h3>
+  <h2>Engine first, then declarations, then deep work for a few.</h2>
+  <p>The funnel is deliberate. Compatibility at the engine level covers most mods with no effort. A declarative manifest covers the next group. Only mods that are engine-scale get dedicated integration, and no one-off hacks sit outside that funnel.</p>
+  <div class="rowlist">
+    <div><b>Simple Voice Chat</b><span>The relay already carries an extra UDP channel for it. To do: prove voice survives a handover.</span><span class="state"><i class="mk written"></i>channel built</span></div>
+    <div><b>Xaero's, JourneyMap</b><span>Waypoints and explored tiles follow the world and the player, keyed by world id instead of the relay address.</span><span class="state"><i class="mk"></i>planned</span></div>
+    <div><b>FTB Chunks, Open Parties and Claims</b><span>Claim data steers coupling hints, and rollback spares claimed regions. FTB Teams and Quests detection is already in the batch test.</span><span class="state"><i class="mk"></i>planned</span></div>
+    <div><b>C2ME, Lithium, FerriteCore, ModernFix</b><span>Mixin conflict guards, and C2ME's thread count feeds the hardware benchmark. C2ME already forced a rewrite of chunk capture, now read from region files.</span><span class="state"><i class="mk written"></i>partly built</span></div>
+    <div><b>Create</b><span>Railway graphs as coupling hints and quarantine for runaway contraptions.</span><span class="state"><i class="mk"></i>planned</span></div>
+    <div><b>Distant Horizons</b><span>Level-of-detail data built once by one peer and shared as ordinary blobs.</span><span class="state"><i class="mk research"></i>research</span></div>
+    <div><b>ReplayMod, Flashback</b><span>Recordings that stay intact across a handover.</span><span class="state"><i class="mk research"></i>research</span></div>
+    <div><b>LuckPerms, CoreProtect, Ledger</b><span>Group mapping onto the three roles, and revision and handover markers in block logs, for anchors and hybrid servers.</span><span class="state"><i class="mk"></i>planned</span></div>
+  </div>
+</section>
+
+<section id="ecosystem">
+  <h3>Ecosystem</h3>
+  <h2>The rest of the picture.</h2>
+  <dl class="defs">
+    <div><dt>Runs anywhere</dt><dd>
+      <p>One static Rust binary, multi-arch images, and templates for CasaOS, Umbrel, Runtipi, Unraid, TrueNAS SCALE, Coolify, Dokploy, Portainer, a Pterodactyl or Pelican egg and a NixOS module. A hardened systemd unit and container example exist today.</p>
+      <p>Later: an optional permanent address for a gateway behind CGNAT through an outbound tunnel, and an Android gateway app for a phone in a drawer.</p></dd></div>
+    <div><dt>More versions</dt><dd>
+      <p>NeoForge 1.21.1 today. Next, a loader-independent core so 1.20.1 on Forge and Fabric can follow, with Java 21 features moved behind an abstraction first. Older versions are out of scope, with a sidecar-based research path for 1.7.10-class packs.</p></dd></div>
+    <div><dt>Easier joining</dt><dd>
+      <p>Invite links that open a landing page and redeem from the clipboard are built. Planned: an <span class="mono">mcmesh://</span> link scheme, Prism and Modrinth App launch integration, and a one-click Share World that converts a singleplayer save, uploads it and copies the invite.</p></dd></div>
+    <div><dt>Community tools</dt><dd>
+      <p>Region rollback exists. Planned: a block log, rollback by player or time window that spares claims, ownership transfer, ban sync, reports, world templates and forks, read-only demos, an offline join queue, friends and presence, a public directory with tags, and a Polish-first localization.</p></dd></div>
+    <div><dt>Outside the process</dt><dd>
+      <p>Sidecar workers on the API plane: a Discord bot with a live status embed, an async BlueMap or Squaremap renderer fed from the store with zero load on the host, offsite backup to S3, Backblaze B2 or rclone, wake-on-LAN and Home Assistant triggers for an idle world, and a Grafana dashboard.</p></dd></div>
+    <div><dt>Safer worlds</dt><dd>
+      <p>Tick quarantine, which serializes and removes a block entity or entity that throws or runs away, instead of crashing the host, never silently and with a never-delete list. A rolling local mirror so every player holds a singleplayer-ready copy. A profiler trigger when ticks stay slow.</p></dd></div>
+    <div><dt>Between servers</dt><dd>
+      <p>Federation research: signed transfer tickets that let a player cross between gateways through portals, and a world directory built on the meta-server work already shipped.</p></dd></div>
+    <div><dt>Bedrock</dt><dd>
+      <p>A planned crossplay path through Geyser and Floodgate for worlds that stay vanilla-wire, with Bedrock players fixed to the client-only role and held through a handover on a loading screen.</p></dd></div>
+  </dl>
+</section>
+
+<section id="hosted">
+  <h3>Hosted plans</h3>
+  <h2>A paid service is optional, and it is last.</h2>
+  <p>Self-hosting parity is a standing rule: the binary you can download has every feature any hosted offering has. Limits are quotas an operator sets, never caps compiled in.</p>
+  <ul class="plain">
+    <li>Hosted gateways with plans for storage, worlds, retention and relay bandwidth. A lapsed plan pauses uploads and never deletes a world.</li>
+    <li>Pay-as-you-go anchors: prepaid credits billed per active minute by memory profile, never expiring, with the clock stopping the moment the anchor hands back to a player.</li>
+    <li>A public cost page showing monthly infrastructure and bandwidth cost next to revenue.</li>
+    <li>A creator program: managed gateways scoped to a modpack with signed auto-update and a crash dashboard, and a revenue share on what a creator's pack brings in.</li>
+    <li>Regional gateways with latency-based selection.</li>
+  </ul>
+  <p class="fine">Gated on a free closed beta that measures real storage and bandwidth per world, and on legal review: Mojang commercial guidelines, mod redistribution licenses, GDPR, taxes and terms. Nothing here is on sale.</p>
+</section>
+
+<section id="limits">
+  <h3>Hard limits</h3>
+  <h2>What this project will not do.</h2>
+  <p>These are the promises that make everything above safe to want.</p>
+  <div class="two">
+    <div>
+      <h3>Never</h3>
+      <ul class="plain never">
+        <li>Ship a change that can lose player data. When unsure, a test comes first.</li>
+        <li>Delete a world because a quota ran out. Uploads pause; saves stay downloadable and playable.</li>
+        <li>Tick mod block entities out of step across machines, or replace the server loop.</li>
+        <li>Download or run code on a player's machine without a pinned author key, a prompt and an opt-out.</li>
+        <li>Run native plugins inside the gateway by default.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Rejected, with reasons</h3>
+      <ul class="plain never">
+        <li>Bytecode rewriting of hot vanilla loops: it collides with other mods' mixins and breaks on every game update.</li>
+        <li>Slowing background ticks with a progress multiplier: it changes behaviour mods can see.</li>
+        <li>Client-side physics guesses: desync and a cheating surface without a measured need.</li>
+        <li>Lock-in. The zip export, the backup command and the local mirror stay first-class.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="copy">
+  <h3>Copy bank</h3>
+  <h2>Ready to paste.</h2>
+  <div class="bank" id="bank"></div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  // voxel wordmark
+  var G={
+    m:["XX.X.","X.X.X","X.X.X","X.X.X","X.X.X"],
+    c:[".XXXX","X....","X....","X....",".XXXX"],
+    e:[".XXX.","X...X","XXXX.","X....",".XXXX"],
+    s:[".XXXX","X....",".XXX.","....X","XXXX."],
+    h:["X....","X.XX.","XX..X","X...X","X...X"]
+  };
+  var word="mcmesh",svg=document.getElementById("mark"),NS="http://www.w3.org/2000/svg",out="";
+  for(var i=0;i<word.length;i++){
+    var g=G[word[i]],fill=i<2?"var(--accent)":"var(--ink)";
+    for(var r=0;r<5;r++)for(var c=0;c<5;c++){
+      if(g[r][c]!=="X")continue;
+      var x=i*6+c;
+      out+='<rect x="'+(x+.04)+'" y="'+(r+.04)+'" width=".92" height=".92" fill="'+fill+'"/>';
+      out+='<rect x="'+(x+.04)+'" y="'+(r+.04)+'" width=".92" height=".2" fill="#fff" opacity=".22"/>';
+    }
+  }
+  svg.innerHTML=out;
+
+  // handover illustration
+  var segs=[{n:"kasia-desktop",w:.38,rev:[388,402]},{n:"bartek-laptop",w:.36,rev:[402,417]},{n:"anchor-vps",w:.26,rev:[417,426]}];
+  var track=document.getElementById("track"),acc=0,cuts=[];
+  segs.forEach(function(s,i){
+    var d=document.createElement("div");d.className="seg";d.style.width=(s.w*100)+"%";d.textContent=s.n;track.appendChild(d);
+    acc+=s.w;s.end=acc;s.start=acc-s.w;if(i<segs.length-1)cuts.push(acc);
+  });
+  cuts.forEach(function(p){var c=document.createElement("div");c.className="cut";c.style.left="calc("+(p*100)+"% - 1px)";track.appendChild(c)});
+  var head=document.createElement("div");head.className="head";track.appendChild(head);
+  var who=document.getElementById("who"),rev=document.getElementById("rev"),note=document.getElementById("note");
+  function draw(p){
+    var s=segs[0];
+    for(var i=0;i<segs.length;i++)if(p>=segs[i].start&&p<=segs[i].end){s=segs[i];break}
+    head.style.left=(p*100)+"%";
+    var f=(p-s.start)/s.w,n=Math.floor(s.rev[0]+f*(s.rev[1]-s.rev[0]));
+    who.textContent="hosting: "+s.n;
+    rev.textContent="R_0"+n;
+    var near=cuts.some(function(c){return Math.abs(p-c)<.018});
+    note.textContent=near?"final commit, next host boots from it":"";
+  }
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){draw(.52)}else{
+    var t0=null,LOOP=24000;
+    (function tick(t){
+      if(t0===null)t0=t;
+      draw(((t-t0)%LOOP)/LOOP);
+      requestAnimationFrame(tick);
+    })(performance.now());
+  }
+
+  // worldgen rings
+  (function(){
+    var el=document.getElementById("tiles"),cols=17,rows=9,cx=8,cz=4,s="";
+    for(var z=0;z<rows;z++)for(var x=0;x<cols;x++){
+      var d=Math.hypot(x-cx,(z-cz)*1.35),k=d<=2.3?"tile-h":d<=4.9?"tile-n":"tile-f";
+      s+='<rect class="'+k+'" x="'+(x*20+1)+'" y="'+(z*20+1)+'" width="18" height="18"/>';
+    }
+    s+='<rect x="'+(cx*20+5)+'" y="'+(cz*20+5)+'" width="10" height="10" fill="var(--bg)"/>';
+    el.innerHTML=s;
+  })();
+
+  // copy bank
+  var TAG=[
+    "The world stays up. The host can change.",
+    "Hosting is a turn, not a job.",
+    "Log off without taking the world with you.",
+    "Your world outlives your PC.",
+    "No one owns the server. Everyone keeps the world."
+  ];
+  var ITEMS=[
+    {t:"One line",x:"mcmesh keeps a Minecraft world on a gateway you run and lets whichever player is online host it, then hands it to the next player when they leave."},
+    {t:"Short post, 280 characters",x:"Your friend's PC is off and the Minecraft world is gone until morning. mcmesh keeps the world on a small gateway and lets whoever is online host it, then hands it to the next player when they leave. Self-hosted, NeoForge 1.21.1, early prototype."},
+    {t:"Thread, three posts",x:"1/ A Minecraft world should not disappear when its host goes to sleep. I have been building mcmesh: the world lives on a small gateway, and whichever player is online and strongest hosts it.\n\n2/ When the host leaves, they commit a final revision and the next machine boots from it. Guests reconnect to the same address. Players never forward a port. Every save is hash-chained and signed, and restoring one adds a save instead of deleting anything.\n\n3/ It is an early prototype for NeoForge 1.21.1, self-hosted, live-tested so far on only two machines. Plenty is written but not yet run in a live game, and the repo says exactly which parts. Feedback from people who run modded servers is what I want most."},
+    {t:"Reddit, r/admincraft style",x:"Title: I built a gateway that lets a modded world hop between players' machines instead of dying when the host logs off\n\nThe problem I kept hitting with friends: whoever hosts is the only reason the world exists. mcmesh stores the world on a small gateway (Rust, SQLite, content-addressed blobs). The mod syncs the newest revision to whoever is about to host, streams changed chunks back while they play, and hands over to the next machine when they leave. Guests connect through the gateway relay, so nobody forwards a port.\n\nThings I cared about most: every revision is hash-chained and commits are signed with a device key; a sanity gate refuses a commit that would wipe most of the world; restoring a revision adds a new one so it can be undone; a world over quota pauses uploads and never deletes data.\n\nHonest status: prototype, NeoForge 1.21.1 only, first live-tested on two machines. Handover reconnects players behind a switching screen, it is not seamless. Load shedding, battery handover and anchor nodes are written but not yet run in a live game. I would like to hear where you think it breaks."},
+    {t:"Discord announcement",x:"mcmesh is a mod plus a small gateway that keeps our world alive when the host is offline. The next online player takes over from the last save, and you reconnect to the same address. Install the mod, join the gateway, and hit Play. If something breaks, tell us what you were doing and send the log; the world itself is versioned, so we can roll it back."},
+    {t:"Mod page description",x:"mcmesh keeps your world on a gateway and lets whichever player is online host it from their own machine. When the host leaves, the next player takes over from the last save and guests reconnect to the same address. No port forwarding for players.\n\nSafety first: hash-chained revisions, signed commits, a sanity gate that refuses destructive uploads, restore from the web panel without deleting anything, scheduled backups, and a world zip export so you are never locked in.\n\nRequires NeoForge 1.21.1 and a gateway you run (single Rust binary, systemd unit and container example included). Early prototype. Not affiliated with Mojang or Microsoft."},
+    {t:"Vision post, where this goes",x:"mcmesh today keeps a Minecraft world alive across hosts. Where I want it to go, in order of how sure I am:\n\n- sure: live chunk streaming, tick quarantine so a runaway machine cannot crash the host, Fabric and 1.20.1\n- scoped: a mod API and a JSON compat manifest, so mods can say what to sync and what must never be deleted\n- research: seamless handover with no reconnect screen, and letting idle machines pre-generate terrain\n\nHard rule through all of it: nothing ships that can lose a chunk, and the server loop stays vanilla-shaped. The roadmap in the repo marks every item as built, written, planned or research."},
+    {t:"Developer pitch",x:"If you write Minecraft mods, mcmesh is meant to cost you almost nothing. Most mods need no change. If yours has files that must follow the world or a UDP port to relay, you add a small JSON manifest. If it holds state that must survive a host change, a tiny MIT-licensed API (planned) lets you hand a snapshot to the next host, and every call is a no-op when mcmesh is not installed. Bots and tools use scoped API keys, signed webhooks and read access to revisions today. Design notes and status are in the repo."},
+    {t:"Press blurb, about 100 words",x:"mcmesh is an open-source project that stops modded Minecraft worlds from vanishing when their host goes offline. The world is stored on a lightweight gateway the group runs itself. Whichever player is online and has the strongest machine hosts it; when they leave, the next player boots from the latest save and guests reconnect to the same address, with no port forwarding. Every save is hash-chained and signed, and over-quota worlds pause uploads instead of deleting data. mcmesh is an early prototype for NeoForge 1.21.1 and is not affiliated with Mojang or Microsoft."}
+  ];
+  function copyText(text,btn){
+    function done(){btn.dataset.done="1";btn.textContent="Copied";setTimeout(function(){btn.dataset.done="";btn.textContent="Copy"},1600)}
+    function fallback(){
+      var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();
+      try{document.execCommand("copy");done()}catch(e){btn.textContent="Select and copy"}
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback)}else{fallback()}
+  }
+  function btn(text){var b=document.createElement("button");b.className="copy";b.type="button";b.textContent="Copy";b.addEventListener("click",function(){copyText(text,b)});return b}
+  var bank=document.getElementById("bank");
+
+  var tg=document.createElement("div");tg.className="item";
+  var th=document.createElement("h3");th.textContent="Taglines";tg.appendChild(th);
+  var tl=document.createElement("div");tl.className="taglines";
+  TAG.forEach(function(s){var r=document.createElement("div");var sp=document.createElement("span");sp.textContent=s;r.appendChild(sp);r.appendChild(btn(s));tl.appendChild(r)});
+  tg.appendChild(tl);bank.appendChild(tg);
+
+  ITEMS.forEach(function(it){
+    var w=document.createElement("div");w.className="item";
+    var h=document.createElement("div");h.className="itemhead";
+    var l=document.createElement("h3");l.textContent=it.t;h.appendChild(l);h.appendChild(btn(it.x));
+    var p=document.createElement("pre");p.textContent=it.x;
+    w.appendChild(h);w.appendChild(p);bank.appendChild(w);
+  });
+
+  var kw=document.createElement("div");kw.className="item";
+  var kh=document.createElement("h3");kh.textContent="Keywords and tags";kw.appendChild(kh);
+  var ch=document.createElement("div");ch.className="chips";
+  ["minecraft","neoforge","modded minecraft","self-hosted","multiplayer","server hosting","modpack","rust","sqlite","#Minecraft","#selfhosted","#NeoForge"].forEach(function(k){var s=document.createElement("span");s.textContent=k;ch.appendChild(s)});
+  kw.appendChild(ch);bank.appendChild(kw);
+})();
+</script>
