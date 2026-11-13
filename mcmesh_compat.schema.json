@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "mcmesh compat manifest, schema version 1",
+  "description": "Placed by a mod at data/<modid>/mcmesh_compat.json. Unknown keys are ignored. One invalid entry makes the whole file ignored.",
+  "type": "object",
+  "required": ["schema"],
+  "properties": {
+    "schema": { "const": 1 },
+    "aux_sync_paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["glob", "scope"],
+        "properties": {
+          "glob": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*\\\\)(?!(.*/)?\\.\\.(/|$)).+$", "description": "Relative to the world folder. No leading slash, no backslash, no .. segment." },
+          "scope": { "enum": ["WORLD_GLOBAL", "TEAM", "PLAYER_PRIVATE"] }
+        }
+      }
+    },
+    "chunk_couplings": {
+      "type": "array",
+      "description": "Parsed and kept, ignored until multi-host sharding exists.",
+      "items": {
+        "type": "object",
+        "required": ["block_tag", "mode"],
+        "properties": {
+          "block_tag": { "type": "string", "minLength": 1 },
+          "mode": { "enum": ["HARD_PIN", "SOFT_AFFINITY", "DYNAMIC_TRACK"] }
+        }
+      }
+    },
+    "udp_channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "port"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+        }
+      }
+    },
+    "quarantine_rules": {
+      "type": "object",
+      "properties": {
+        "never_delete": { "type": "array", "items": { "type": "string" } },
+        "max_tick_micros": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "dimension_policies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "policy"],
+        "properties": {
+          "dimension": { "type": "string", "minLength": 1 },
+          "policy": { "enum": ["EPHEMERAL_NO_CAS"] }
+        }
+      }
+    }
+  }
+}
