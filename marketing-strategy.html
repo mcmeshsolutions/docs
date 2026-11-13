@@ -1,0 +1,423 @@
+<title>mcmesh: go-to-market plan for the closed beta</title>
+<style>
+:root{
+  --bg:#ECF0F0;--panel:#E2E8E8;--ink:#0F1B1D;--mute:#4F6062;--rule:#C3CFCF;
+  --accent:#2B4FD1;--accent-ink:#FFFFFF;--signal:#C93C26;
+  --mono:ui-monospace,"JetBrains Mono","Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0D1517;--panel:#142022;--ink:#E4EDED;--mute:#97A9AB;--rule:#243336;--accent:#8CA0FF;--accent-ink:#0D1517;--signal:#FF7A5F}
+}
+:root[data-theme="dark"]{--bg:#0D1517;--panel:#142022;--ink:#E4EDED;--mute:#97A9AB;--rule:#243336;--accent:#8CA0FF;--accent-ink:#0D1517;--signal:#FF7A5F}
+:root[data-theme="light"]{--bg:#ECF0F0;--panel:#E2E8E8;--ink:#0F1B1D;--mute:#4F6062;--rule:#C3CFCF;--accent:#2B4FD1;--accent-ink:#FFFFFF;--signal:#C93C26}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.page{max-width:72rem;margin:0 auto;padding:2.5rem 1.5rem 6rem;display:flex;flex-direction:column;gap:4.5rem}
+section{display:flex;flex-direction:column;gap:1.25rem;scroll-margin-top:1.5rem}
+h1{margin:0;font:700 clamp(2.2rem,6vw,4.2rem)/1 var(--sans);letter-spacing:-.03em;max-width:15ch;text-wrap:balance}
+h2{margin:0;font:650 1.65rem/1.15 var(--sans);letter-spacing:-.015em;text-wrap:balance;max-width:34ch}
+h3{margin:0;font:600 .78rem/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+p{margin:0;max-width:65ch;text-wrap:pretty}
+.mute{color:var(--mute)}
+.mono{font-family:var(--mono)}
+.fine{font:400 .78rem/1.45 var(--mono);color:var(--mute);max-width:80ch}
+.eyebrow{font:500 .78rem/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.top{display:flex;flex-direction:column;gap:1.5rem}
+.lede{font-size:1.2rem;line-height:1.5;max-width:56ch}
+nav.jump{display:flex;flex-wrap:wrap;gap:.4rem 1.25rem;font:500 .78rem/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;border-top:1px solid var(--rule);padding-top:.8rem}
+nav.jump a{color:var(--mute);text-decoration:none}
+nav.jump a:hover{color:var(--ink)}
+
+.verdict{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.verdict>div{padding:1rem 1.25rem 1.2rem 0;display:flex;flex-direction:column;gap:.55rem}
+.verdict>div+div{padding-left:1.25rem;border-left:1px solid var(--rule)}
+.verdict h3{color:var(--accent)}
+ul.plain{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.5rem}
+ul.plain li{padding-left:1.1rem;position:relative;max-width:62ch}
+ul.plain li::before{content:"";position:absolute;left:0;top:.7em;width:.45rem;height:2px;background:var(--accent)}
+ul.bad li::before{background:var(--signal)}
+
+/* timeline */
+.scroll{overflow-x:auto}
+.tl{display:grid;grid-template-columns:7.5rem repeat(15,minmax(2.6rem,1fr));column-gap:2px;row-gap:.4rem;min-width:50rem;align-items:stretch}
+.tl .lab{font:600 .72rem/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);align-self:center}
+.tl .wk{font:500 .68rem/1 var(--mono);color:var(--mute);text-align:center;padding-bottom:.3rem;border-bottom:1px solid var(--rule)}
+.band{font:600 .72rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:.55rem .6rem;color:var(--accent-ink)}
+.b1{background:color-mix(in srgb,var(--accent) 45%,var(--bg));color:var(--ink)}
+.b2{background:color-mix(in srgb,var(--accent) 75%,var(--bg))}
+.b3{background:var(--accent)}
+.bar{font:500 .74rem/1.25 var(--mono);padding:.5rem .6rem;border:1px solid var(--accent);color:var(--ink);background:color-mix(in srgb,var(--accent) 12%,var(--bg));min-height:2.4rem;display:flex;align-items:center}
+.gate{display:flex;align-items:center;justify-content:center;gap:.4rem;font:700 .74rem/1 var(--mono);color:var(--signal)}
+.gate i{width:.7rem;height:.7rem;background:var(--signal);transform:rotate(45deg);flex:none}
+
+/* stage columns */
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.stages>div{display:flex;flex-direction:column;gap:.6rem;padding:1rem 1.25rem 1.2rem 0;border-top:2px solid var(--ink)}
+.stages>div+div{padding-left:1.25rem;border-left:1px solid var(--rule)}
+.stages h2{font-size:1.2rem}
+.exit{border-top:1px solid var(--rule);padding-top:.6rem;font:500 .8rem/1.45 var(--mono);color:var(--signal)}
+
+/* tables made of rows */
+.tbl{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.tbl .r{display:grid;gap:1.25rem;padding:.8rem 0;border-bottom:1px solid var(--rule);align-items:start}
+.tbl .h{font:600 .72rem/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);padding:.5rem 0}
+.tbl b{font-weight:600}
+.seg4{grid-template-columns:11rem 1fr 1fr 12rem}
+.chan{grid-template-columns:13rem minmax(0,1fr) 9.5rem 4.5rem minmax(0,1.2fr)}
+.fits{display:flex;gap:.5rem;padding-top:.3rem}
+.mk{display:inline-block;width:.8rem;height:.8rem;border:2px solid var(--accent);flex:none}
+.mk.hi{background:var(--accent)}
+.mk.mid{background:linear-gradient(135deg,var(--accent) 50%,transparent 50%)}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font:500 .78rem/1.2 var(--mono);color:var(--mute)}
+.legend span{display:inline-flex;align-items:center;gap:.5rem}
+.eff{font:600 .78rem/1.6 var(--mono)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem}
+.two>div{display:flex;flex-direction:column;gap:.7rem}
+
+/* funnel */
+.fun{display:flex;flex-direction:column;gap:.35rem}
+.fun .row{display:grid;grid-template-columns:minmax(0,1fr) 17rem;gap:1.25rem;align-items:center}
+.fun .track{background:var(--panel);height:2.6rem}
+.fun .fill{height:100%;display:flex;align-items:center;padding:0 .8rem;font:600 .78rem/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;background:var(--accent);color:var(--accent-ink)}
+.fun .cap{font-size:.88rem;line-height:1.35;color:var(--mute)}
+
+/* forms */
+.spec{border:1px solid var(--rule);background:var(--panel);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.8rem}
+.field{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:1rem;padding:.55rem 0;border-top:1px solid var(--rule);font-size:.92rem;line-height:1.4}
+.field:first-of-type{border-top:0}
+.field b{font-weight:600;display:block}
+.field .t{font:500 .72rem/1.4 var(--mono);color:var(--mute)}
+.req{color:var(--signal)}
+.consent{font-size:.84rem;line-height:1.5;border-left:2px solid var(--accent);padding:.2rem 0 .2rem .8rem;color:var(--mute);max-width:70ch}
+
+.steps{display:flex;flex-direction:column;border-top:1px solid var(--rule);margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--rule);counter-increment:s}
+.steps li::before{content:counter(s);font:600 .9rem/1.6 var(--mono);color:var(--signal)}
+
+@media (max-width:56rem){
+  .verdict,.stages,.two{grid-template-columns:minmax(0,1fr)}
+  .verdict>div+div,.stages>div+div{padding-left:0;border-left:0;border-top:1px solid var(--rule)}
+  .tbl .h{display:none}
+  .seg4,.chan{grid-template-columns:minmax(0,1fr);gap:.35rem}
+  .fun .row{grid-template-columns:minmax(0,1fr)}
+  .field{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<div class="page">
+
+<header class="top" id="verdict">
+  <div class="eyebrow">mcmesh / go-to-market plan / for the closed beta</div>
+  <h1>Start now. Be loud later.</h1>
+  <p class="lede">Yes, build the audience before the beta. Lists, Discord members and a few modpack authors who know your name take months to gather, and the beta needs real groups on varied hardware. But the first loud moment is a one-shot, and the product can lose data. So start quiet, and put the loud part behind one gate: a recorded, real handover.</p>
+  <nav class="jump" aria-label="Sections">
+    <a href="#timeline">Timeline</a><a href="#audiences">Audiences</a><a href="#channels">Channels</a><a href="#funnel">Funnel</a><a href="#forms">Forms</a><a href="#content">Content</a><a href="#beta">Beta mechanics</a><a href="#metrics">Metrics</a><a href="#legal">Legal hygiene</a><a href="#risks">Risks</a><a href="#start">First 14 days</a>
+  </nav>
+  <div class="verdict">
+    <div>
+      <h3>Why start early</h3>
+      <ul class="plain">
+        <li>An owned audience (email list, Discord) compounds slowly and cannot be bought fast.</li>
+        <li>The beta needs 10 or more groups with different hardware, modpacks and home networks. You find them by being visible.</li>
+        <li>Public devlogs pull in bug reports and contributors before launch.</li>
+        <li>Phase 7 of the roadmap is explicitly gated on a closed beta that measures storage and bandwidth. Recruiting is on the critical path.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Why not all at once</h3>
+      <ul class="plain bad">
+        <li>The handover has not been proven in a live game; several features are written but never run live.</li>
+        <li>A data-loss story in the first week is very hard to undo.</li>
+        <li>Reddit, Hacker News and modding communities punish hype and reward a working demo.</li>
+        <li>You are one person. A cadence you cannot keep is worse than a slow one.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>The rule</h3>
+      <ul class="plain">
+        <li>Stage 1 is quiet: claim names, build the owned places, write the privacy notice.</li>
+        <li>Gate A: one real handover on real machines, recorded. Nothing loud before it.</li>
+        <li>Stage 2 is public but honest: demo, devlog, communities, creators.</li>
+        <li>Gate B: your own groups play two weeks without a data incident. Only then open applications.</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section id="timeline">
+  <h3>Timeline</h3>
+  <h2>Fifteen weeks, counted back from the day the beta opens.</h2>
+  <p>Week labels are relative (T-14 is fourteen weeks before the beta). Slide the whole thing earlier or later; keep the gates. If Gate A slips, everything after it slips with it.</p>
+  <div class="scroll"><div class="tl" id="tl" role="img" aria-label="Fifteen week plan in three stages with two gates"></div></div>
+  <div class="legend"><span><i class="mk hi"></i>work lane</span><span style="color:var(--signal)"><i style="display:inline-block;width:.7rem;height:.7rem;background:var(--signal);transform:rotate(45deg)"></i>gate: do not pass until true</span></div>
+  <div class="two">
+    <div><h3>Gate A, end of stage 1</h3><p>A real handover between two of your own machines has been recorded in a live game, and the world was intact afterwards. This is also the Phase 0 list in the roadmap: deploy, mismatch refusal test, laptop-to-desktop handover. Without this clip you have nothing worth showing.</p></div>
+    <div><h3>Gate B, before applications open</h3><p>Two or three of your own friend groups ran on it for two weeks, with zero data incidents and every crash report triaged. The gateway Dockerfile must also have been built and run once, because self-hosters will try it first.</p></div>
+  </div>
+</section>
+
+<section id="stages">
+  <h3>The three stages</h3>
+  <h2>What happens in each, and what ends it.</h2>
+  <div class="stages">
+    <div>
+      <h3>Stage 1, quiet foundation</h3>
+      <h2>Own the places.</h2>
+      <ul class="plain">
+        <li>Check the name and domain, take the handles on the platforms you will use.</li>
+        <li>A small Discord with two channels, rules and an announcements channel.</li>
+        <li>A one-page site with the waitlist form and a privacy notice. The gateway already serves a landing page, so the page can live there.</li>
+        <li>README and status labels in the repo (done), a first short devlog post.</li>
+        <li>Record rough footage of every real session, even broken ones. You will need it.</li>
+      </ul>
+      <div class="exit">Exit: Gate A.</div>
+    </div>
+    <div>
+      <h3>Stage 2, show it</h3>
+      <h2>Prove it, in public.</h2>
+      <ul class="plain">
+        <li>A 60 to 90 second handover demo: host leaves, next player takes over, same address.</li>
+        <li>Weekly devlog with a clip or a screenshot every time.</li>
+        <li>Join communities as a participant first, post second. Polish ones first.</li>
+        <li>A Modrinth project page marked as beta, and direct messages to a short list of modpack authors.</li>
+        <li>One Show HN near the end, when the repo and the container image are clean.</li>
+      </ul>
+      <div class="exit">Exit: Gate B.</div>
+    </div>
+    <div>
+      <h3>Stage 3, open the door</h3>
+      <h2>Invite, do not announce.</h2>
+      <ul class="plain">
+        <li>Open the application form. Choose groups; do not let them choose themselves.</li>
+        <li>Wave 1: about ten hand-picked groups, with per-world quotas set before anyone connects.</li>
+        <li>Beta guide, FAQ and the public status page.</li>
+        <li>A weekly check-in with every group for the first month.</li>
+      </ul>
+      <div class="exit">Exit: beta opens at T0, waves continue from the waitlist.</div>
+    </div>
+  </div>
+</section>
+
+<section id="audiences">
+  <h3>Audiences and messages</h3>
+  <h2>Five kinds of people, each with one sentence that is for them.</h2>
+  <div class="tbl">
+    <div class="r h seg4"><span>Who</span><span>What they care about</span><span>The sentence</span><span>Where they are</span></div>
+    <div class="r seg4"><b>The friend-group organizer</b><span>Their group plays at odd hours and the one person with a PC keeps becoming the bottleneck.</span><span>"Your world keeps going when the host logs off."</span><span>Discord servers of their own pack, r/admincraft, YouTube</span></div>
+    <div class="r seg4"><b>The modpack author</b><span>Players on the exact same pack, updated safely, fewer crash reports to chase.</span><span>"Signed auto-update, a per-pack allowlist, and a crash dashboard for your players."</span><span>Modrinth, CurseForge pages, pack Discords, r/feedthebeast</span></div>
+    <div class="r seg4"><b>The self-hoster</b><span>A small, auditable, well-documented service with real backups and no lock-in.</span><span>"One Rust binary, SQLite, scrub and backup built in, zip export always."</span><span>r/selfhosted, Hacker News, self-hosting newsletters, Mastodon</span></div>
+    <div class="r seg4"><b>The community server owner</b><span>Uptime, moderation tools and no single owner who can disappear.</span><span>"Audit log, ban, quotas, and a world that has no single point of failure."</span><span>Server lists, Discord, forums</span></div>
+    <div class="r seg4"><b>The mod developer</b><span>Their mod should not break on a handover and should cost nothing to support.</span><span>"Most mods need no change; a JSON manifest covers the next group."</span><span>NeoForge community, mod Discords, GitHub</span></div>
+  </div>
+</section>
+
+<section id="channels">
+  <h3>Channels</h3>
+  <h2>Where to spend the hours, ranked by what each is good for.</h2>
+  <div class="legend">
+    <span><i class="mk hi"></i>strong fit</span><span><i class="mk mid"></i>partial</span><span><i class="mk"></i>weak</span>
+    <span class="fine">Fit columns: organizer, self-hoster, modpack author, developer. Effort: S under an hour a week, M a few hours, L a day or more.</span>
+  </div>
+  <div class="tbl" id="chan"></div>
+  <p class="fine">Read each community's self-promotion rule before posting and follow it. Post once per community, with different text, on different days.</p>
+</section>
+
+<section id="funnel">
+  <h3>Funnel</h3>
+  <h2>Every channel points at two owned places.</h2>
+  <p>Platform reach is rented: an account can be limited, a post can sink. The waitlist and the Discord are yours. Everything you publish ends with one of them.</p>
+  <div class="fun" role="img" aria-label="Funnel from reached to active beta group; bar widths show shape, not forecast">
+    <div class="row"><div class="track"><div class="fill" style="width:100%">Reached</div></div><div class="cap">Saw a post or a clip. You capture nothing; make the clip good.</div></div>
+    <div class="row"><div class="track"><div class="fill" style="width:70%">Follows</div></div><div class="cap">Discord join, repo star, Modrinth follow. Low commitment, public signal.</div></div>
+    <div class="row"><div class="track"><div class="fill" style="width:46%">Waitlist</div></div><div class="cap">Email with consent and a role. This is the list you own.</div></div>
+    <div class="row"><div class="track"><div class="fill" style="width:30%">Applied</div></div><div class="cap">Filled the beta form with real details about their group.</div></div>
+    <div class="row"><div class="track"><div class="fill" style="width:19%">Invited</div></div><div class="cap">You chose them for hardware, pack or role mix.</div></div>
+    <div class="row"><div class="track"><div class="fill" style="width:12%">Active</div></div><div class="cap">Hosted at least a few handovers and told you what broke.</div></div>
+  </div>
+  <p class="fine">Bar widths show the shape of a funnel, not a forecast. Plan for roughly three to five waitlist sign-ups per beta slot so you can pick a good mix; that ratio is my planning assumption, adjust it after the first wave.</p>
+</section>
+
+<section id="forms">
+  <h3>Forms</h3>
+  <h2>Two forms, asking only what you will use.</h2>
+  <div class="two">
+    <div>
+      <h3>Waitlist, four fields</h3>
+      <div class="spec">
+        <div class="field"><div><b>Email <span class="req">required</span></b><span class="t">text</span></div><span>To tell them the beta opened. Nothing else.</span></div>
+        <div class="field"><div><b>I mostly... <span class="req">required</span></b><span class="t">select</span></div><span>Play with friends, run a server, make a modpack, write mods, self-host things. Decides which email they get.</span></div>
+        <div class="field"><div><b>Modpack or loader</b><span class="t">text, optional</span></div><span>Tells you whether NeoForge 1.21.1 covers them today.</span></div>
+        <div class="field"><div><b>Consent checkbox <span class="req">required, unticked</span></b><span class="t">checkbox</span></div><span>A separate, specific consent, not bundled with anything else.</span></div>
+      </div>
+      <p class="consent">Sample wording, English: "I agree that [name or company] stores my email address to send me news about the mcmesh beta and may contact me about it. I can withdraw this at any time with one click in any email. Privacy notice: [link]." Publish a Polish version too, and have the notice reviewed.</p>
+    </div>
+    <div>
+      <h3>Beta application, ten fields</h3>
+      <div class="spec">
+        <div class="field"><div><b>Group size, hours played together</b><span class="t">number, select</span></div><span>Decides concurrency and when handovers will happen.</span></div>
+        <div class="field"><div><b>Modpack, version, loader</b><span class="t">text</span></div><span>Only NeoForge 1.21.1 is supported now; this screens fast.</span></div>
+        <div class="field"><div><b>How you host today</b><span class="t">select</span></div><span>Your real competitor, and your best quote.</span></div>
+        <div class="field"><div><b>Machines that could host</b><span class="t">OS, RAM, desktop or laptop</span></div><span>Gives the hardware mix the election logic needs.</span></div>
+        <div class="field"><div><b>Home network</b><span class="t">select, incl. "not sure"</span></div><span>CGNAT and upload speed are the cases that matter.</span></div>
+        <div class="field"><div><b>Discord handle</b><span class="t">text</span></div><span>Where you will actually talk to them.</span></div>
+        <div class="field"><div><b>Will you send logs and crash reports?</b><span class="t">yes or no</span></div><span>A beta group that will not report is not a beta group.</span></div>
+        <div class="field"><div><b>Will you keep a local backup?</b><span class="t">checkbox</span></div><span>Beta terms. The zip export and local mirror exist for this.</span></div>
+        <div class="field"><div><b>Agree to metrics</b><span class="t">checkbox</span></div><span>Storage and bandwidth per world are what Phase 7 needs.</span></div>
+        <div class="field"><div><b>Anything we should know</b><span class="t">text, optional</span></div><span>Reads like a person; signals a good fit or a bad one.</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="fine">Where to host the forms: prefer a self-hosted or EU-hosted tool you control, such as a small route on the gateway or a self-hosted mailing list tool, over a free form builder that holds your list. Whatever you pick, export regularly.</p>
+</section>
+
+<section id="content">
+  <h3>Content</h3>
+  <h2>Publish what only you have: real engineering stories.</h2>
+  <p>The credible hook for this project is not "revolutionary". It is that you can show your work, including where it broke. Four pillars, all already true in the repo:</p>
+  <div class="tbl">
+    <div class="r h" style="grid-template-columns:15rem 1fr"><span>Pillar</span><span>Example, from work that exists</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr"><b>How we avoid losing a chunk</b><span>The sanity gate that refuses a commit leaving under half the stored bytes, the hash chain, and the seeded chaos harness that kills hosts mid-commit. This is the trust post.</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr"><b>A bug from our first live test</b><span>Chunks were never uploaded on one pack because a performance mod bypassed the write hook; the fix reads changed chunks from the region files. Also: a strong guest looked weaker than the host, so no takeover was offered. Honest postmortems earn more than polish.</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr"><b>Handover, explained</b><span>One diagram and one clip: sync, lease, play, save, hand over. The first page of the pitch already has it.</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr"><b>Run your own gateway</b><span>Only after the container image is built and run once. Systemd unit and compose example exist; verify them end to end first.</span></div>
+  </div>
+  <div class="two">
+    <div><h3>Cadence you can keep</h3><ul class="plain"><li>One short devlog a week, always with a clip or a screenshot.</li><li>One longer post every two to three weeks.</li><li>One clip a week, vertical for short video if you want reach.</li><li>Announce a skipped week in one line; silence reads as dead.</li></ul></div>
+    <div><h3>Format rules</h3><ul class="plain"><li>Show something working before you say what it is.</li><li>Label status honestly: built, written, planned, research.</li><li>End on one specific ask: "run the pre-check on your pack and tell me the result".</li><li>No dates for the hosted service. Nothing is on sale.</li></ul></div>
+  </div>
+</section>
+
+<section id="beta">
+  <h3>Beta mechanics</h3>
+  <h2>Waves, caps and a way to stop.</h2>
+  <div class="tbl">
+    <div class="r h" style="grid-template-columns:9rem 10rem 1fr"><span>Wave</span><span>Who</span><span>Rules</span></div>
+    <div class="r" style="grid-template-columns:9rem 10rem 1fr"><b>Wave 0</b><span>Your own two or three groups</span><span>The pass condition for Gate B. Rough edges welcome; this is where bugs are cheapest.</span></div>
+    <div class="r" style="grid-template-columns:9rem 10rem 1fr"><b>Wave 1</b><span>About ten hand-picked groups</span><span>Mix of hardware, home networks, one or two modpack authors. Per-world quotas set before the first connection: guest cap and monthly relay bandwidth exist already, and uploads pause over quota without deleting anything.</span></div>
+    <div class="r" style="grid-template-columns:9rem 10rem 1fr"><b>Wave 2 onward</b><span>From the waitlist, in batches</span><span>Add a batch only when the previous batch has no open data issue. Capacity is set by relay bandwidth, not by enthusiasm.</span></div>
+  </div>
+  <div class="two">
+    <div><h3>Beta terms, in plain words</h3><ul class="plain"><li>Keep your own backup; the zip export and local mirror are there.</li><li>NeoForge 1.21.1 only. Some features have never run in a live game, and we say which.</li><li>Logs and crash reports are expected.</li><li>The beta can end or reset; nothing is promised about future prices.</li></ul></div>
+    <div><h3>What you measure</h3><ul class="plain"><li>Storage and relay bandwidth per world per month, the Phase 7 gate.</li><li>Handovers per week, and how many failed or were aborted.</li><li>Time from "host leaves" to "guests playing again".</li><li>Data incidents, with a target of zero and a published postmortem for any.</li></ul></div>
+  </div>
+</section>
+
+<section id="metrics">
+  <h3>Metrics</h3>
+  <h2>Count the signals that predict a good beta.</h2>
+  <div class="tbl">
+    <div class="r h" style="grid-template-columns:15rem 1fr 14rem"><span>Signal</span><span>Why it matters</span><span>Planning target</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr 14rem"><b>Waitlist, by role</b><span>The role mix tells you who is actually interested. Stars and views do not.</span><span>3 to 5 per beta slot</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr 14rem"><b>Discord members who posted</b><span>Total members flatter you; people who write are the community.</span><span>a dozen, not a thousand</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr 14rem"><b>Complete applications</b><span>Detailed answers mean a serious group.</span><span>more than 2x wave 1</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr 14rem"><b>Wave 1 groups with 3+ handovers in 2 weeks</b><span>The real activation event: the product did its job.</span><span>most of them</span></div>
+    <div class="r" style="grid-template-columns:15rem 1fr 14rem"><b>Data incidents</b><span>The only number that can end the project.</span><span>zero</span></div>
+  </div>
+  <p class="fine">Targets are planning assumptions, not benchmarks from similar launches. Adjust them after the first two weeks of real numbers.</p>
+</section>
+
+<section id="legal">
+  <h3>Legal hygiene</h3>
+  <h2>Boring, cheap, and the kind of thing that sinks a launch if skipped.</h2>
+  <p class="fine">This is a checklist of things to verify, not legal advice. Have a lawyer read the notice and the terms before the first email.</p>
+  <ul class="plain">
+    <li>Waitlist emails need prior consent: GDPR articles 6(1)(a), 7 and 13, plus article 10 of the Polish act on electronic services (ustawa o swiadczeniu uslug droga elektroniczna). Unticked checkbox, specific purpose, one-click unsubscribe, a privacy notice naming who holds the data and for how long.</li>
+    <li>Never buy or scrape email lists, and never add a Discord member to a mailing list without a separate consent.</li>
+    <li>Name and logo: do not use the Minecraft name or logo as branding, and add a clear "not an official Minecraft product, not approved by or associated with Mojang or Microsoft" line. Check the current Mojang brand and commercial guidelines, and check the name and domain for conflicts before you print anything.</li>
+    <li>License the repository before it is promoted. The direction in the blueprint is MIT or Apache-2.0 for the mod and AGPL-3.0 for the gateway; confirm it in the legal review.</li>
+    <li>No hosted plan, price, credit or revenue share goes into public copy until the legal review of the business layer is done. The beta is free and says so.</li>
+    <li>Beta data you collect (metrics, logs, crash reports) needs its own line in the notice: what, why, how long.</li>
+  </ul>
+</section>
+
+<section id="risks">
+  <h3>Risks</h3>
+  <h2>What can go wrong, and what is already in place.</h2>
+  <div class="tbl" id="risk"></div>
+</section>
+
+<section id="start">
+  <h3>First 14 days</h3>
+  <h2>Concrete, in order.</h2>
+  <ol class="steps">
+    <li><span>Decide the public name and check domain, handles and trademark conflicts.</span></li>
+    <li><span>Create the Discord with two channels and short rules. Do not invite anyone yet.</span></li>
+    <li><span>Write the privacy notice and the consent text. Put the waitlist form on the landing page.</span></li>
+    <li><span>Settle the license for the repository, so it can be linked.</span></li>
+    <li><span>Run the Phase 0 list: install the staged jar, deploy the gateway, do the laptop-to-desktop handover on camera.</span></li>
+    <li><span>Edit that footage into the 60 to 90 second demo. This ends stage 1.</span></li>
+    <li><span>Publish devlog one with the clip. Join three communities as a participant, one of them Polish.</span></li>
+    <li><span>Build and run the gateway container image once; fix what breaks before any self-hosting audience sees it.</span></li>
+  </ol>
+</section>
+
+</div>
+
+<script>
+(function(){
+  // timeline
+  var W=15,tl=document.getElementById("tl"),h="";
+  function cell(col,span,cls,txt,extra){return '<div class="'+cls+'" style="grid-column:'+(col+1)+' / span '+span+';'+(extra||"")+'">'+txt+'</div>'}
+  h+='<div></div>';
+  for(var i=0;i<W;i++){h+='<div class="wk">'+(i===W-1?"T0":"T-"+(W-1-i))+'</div>'}
+  h+='<div class="lab" style="grid-column:1">Stage</div>'+cell(1,4,"band b1","1 quiet foundation")+cell(5,7,"band b2","2 show it")+cell(12,4,"band b3","3 open the door");
+  var lanes=[
+    ["Audience",[[1,3,"Handles, Discord, repo"],[4,12,"Weekly devlog, always with a clip"]]],
+    ["Assets",[[1,4,"Landing, waitlist, notice"],[5,3,"Handover demo"],[8,4,"Docs, FAQ"],[12,4,"Beta guide, status page"]]],
+    ["Outreach",[[5,3,"Polish communities, r/admincraft"],[8,2,"Reddit"],[10,2,"Show HN"]]],
+    ["Creators",[[6,7,"Modrinth beta page, modpack author DMs"],[13,3,"Creator beta slots"]]],
+    ["Beta",[[12,2,"Applications open"],[14,2,"Wave 1"]]]
+  ];
+  lanes.forEach(function(l){
+    h+='<div class="lab" style="grid-column:1">'+l[0]+'</div>';
+    l[1].forEach(function(b){if(b[2])h+=cell(b[0],b[1],"bar",b[2])});
+  });
+  h+='<div class="lab" style="grid-column:1">Gates</div>'+cell(4,1,"gate","<i></i>A")+cell(11,1,"gate","<i></i>B");
+  tl.innerHTML=h;
+
+  // channels: org, self-host, author, dev  -> 2 strong, 1 partial, 0 weak
+  var C=[
+    ["Own Discord server","The hub. Everything else points here.",[2,2,2,1],"M","Two channels at first. You moderate it, so keep it small."],
+    ["GitHub: README, releases, Discussions","Trust for developers and self-hosters; where bug reports live.",[0,2,1,2],"S","Needs a decided license and a built container image first."],
+    ["Modrinth project page, marked beta","Follows, updates and discovery among pack players.",[2,0,2,1],"S","Follow their content rules. Say clearly it is a beta."],
+    ["r/admincraft","People who run servers and feel the host problem.",[2,2,1,1],"M","Participate before posting. Self-promotion limits apply."],
+    ["r/selfhosted","Gateway-as-a-service audience; likes docs and honest limits.",[0,2,0,1],"M","Post only when the compose file has been run end to end."],
+    ["r/feedthebeast and modded communities","Pack players and authors.",[2,0,2,1],"M","Different post per community; lead with the clip."],
+    ["Show HN","One-day spike of developers and self-hosters.",[0,2,0,2],"L","One shot. Clean repo, a demo, a plain title, and be present for the first hours."],
+    ["YouTube and short clips","The handover demo is the single best asset you will make.",[2,1,1,0],"L","Reach pack and server creators with it directly, not only the algorithm."],
+    ["Direct outreach to modpack authors","Highest leverage per hour; this is the future creator program.",[1,0,2,1],"M","Personal messages to a short list. Offer to set up their pack in the beta."],
+    ["Mastodon, Bluesky, X devlog","Cheap reach into dev and self-hosting circles.",[0,2,0,2],"S","Same weekly devlog, cut short. Use #Minecraft #selfhosted #NeoForge."],
+    ["Polish communities: Discord servers, forums, tagged feeds","First wave. Native language, fast feedback, same time zone.",[2,1,1,1],"M","Check what is active now. Polish is the planned first localization."],
+    ["NeoForge and mod-dev communities","Developers for compat manifests and API feedback.",[0,0,1,2],"S","Ask for feedback in the right channel; no ads."],
+    ["Self-hosting newsletters and directories","Later, steady trickle of self-hosters.",[0,2,0,1],"S","After the docs are good. Check each submission rule."]
+  ];
+  function fit(v){var c=v===2?"mk hi":v===1?"mk mid":"mk",t=v===2?"strong":v===1?"partial":"weak";return '<i class="'+c+'" title="'+t+'"></i><span class="sr">'+t+'</span>'}
+  var t='<div class="r h chan"><span>Channel</span><span>Good for</span><span>Fit</span><span>Effort</span><span>Caveat</span></div>';
+  C.forEach(function(c){
+    t+='<div class="r chan"><b>'+c[0]+'</b><span>'+c[1]+'</span><span class="fits">'+c[2].map(fit).join("")+'</span><span class="eff">'+c[3]+'</span><span class="mute">'+c[4]+'</span></div>';
+  });
+  document.getElementById("chan").innerHTML=t;
+
+  // risks
+  var R=[
+    ["A data-loss incident in public","Sanity gate, hash chain, scrub and backup, local mirror and zip export already exist. Start with your own groups, publish a postmortem for any incident, and pause the next wave until it is closed."],
+    ["Over-promising","Use the built, written, planned, research labels everywhere. No dates, no prices, no hosted plan in public copy."],
+    ["The demo fails live","Gate A exists so it fails in private first. Keep the raw footage; a rough real clip beats a polished fake."],
+    ["Bandwidth or storage blowing up","Per-world guest cap and monthly relay cap, storage quotas, and invite waves. Over quota pauses uploads and never deletes."],
+    ["Community moderation load","Two channels, short rules, one announcements channel. Add channels only when a topic keeps coming up."],
+    ["Burnout, because it is one person","Cap the cadence at one short devlog a week and say when you skip. Waves are paced by capacity, not by demand."],
+    ["Banned or ignored for self-promotion","Participate first, post once per community with different text, follow each rule, and never cross-post the same text on one day."],
+    ["Privacy or consent mistakes","The forms spec above: unticked consent, specific purpose, one-click unsubscribe, a reviewed notice, no bought lists."]
+  ];
+  var rh='<div class="r h" style="grid-template-columns:15rem 1fr"><span>Risk</span><span>Mitigation</span></div>';
+  R.forEach(function(r){rh+='<div class="r" style="grid-template-columns:15rem 1fr"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'});
+  document.getElementById("risk").innerHTML=rh;
+})();
+</script>
