@@ -1144,6 +1144,28 @@
           }
         }
       }
+    },
+    "/v1/anchors/register": {
+      "post": {
+        "summary": "Anchor reports its memory and cores",
+        "description": "Authorisation: a device an operator flagged with set-anchor (403 NOT_AN_ANCHOR otherwise). Registering never makes a device an anchor.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/admin/anchors": {
+      "get": {
+        "summary": "List anchors",
+        "description": "Authorisation: gateway admin. Flagged devices with memory, profile and the world each is hosting.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }
