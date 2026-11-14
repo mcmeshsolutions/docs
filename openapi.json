@@ -1123,6 +1123,27 @@
           }
         }
       }
+    },
+    "/v1/worlds/{id}/events/stream": {
+      "get": {
+        "summary": "World event stream (server-sent events)",
+        "description": "Authorisation: member. Same events as the long poll; each event carries id = its sequence number, reconnect with Last-Event-ID or ?after=. A reset event means the gateway restarted. Ends after an hour.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "text/event-stream"
+          }
+        }
+      }
     }
   }
 }
