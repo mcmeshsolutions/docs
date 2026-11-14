@@ -1012,6 +1012,117 @@
           }
         }
       }
+    },
+    "/v1/worlds/{id}/banned": {
+      "get": {
+        "summary": "Who is banned (names and ids)",
+        "description": "Authorisation: any member. No reasons are returned; hosts use this to keep their own ban list in step.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/appeals": {
+      "get": {
+        "summary": "List ban appeals",
+        "description": "Authorisation: owner or admin. Open ones; ?all=1 adds decided ones.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "summary": "Appeal a ban",
+        "description": "Authorisation: a banned player of this world. One open appeal at a time.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/appeals/{aid}/decide": {
+      "post": {
+        "summary": "Decide an appeal",
+        "description": "Authorisation: owner or admin. decision is lift (removes the ban) or keep.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "aid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/moderation": {
+      "get": {
+        "summary": "Moderation log",
+        "description": "Authorisation: owner or admin. Bans, unbans, reports, appeals and decisions, newest first, from the audit log.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }
