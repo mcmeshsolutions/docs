@@ -47,6 +47,10 @@
         "max_tick_micros": { "type": "integer", "minimum": 1 }
       }
     },
+    "worldgen": {
+      "enum": ["DETERMINISTIC", "NONDETERMINISTIC"],
+      "description": "Whether this mod's world generation depends only on seed and position. NONDETERMINISTIC (unseeded Random, time, reads of world state) switches distributed worldgen off for the whole pack. Absent means unknown."
+    },
     "dimension_policies": {
       "type": "array",
       "items": {
