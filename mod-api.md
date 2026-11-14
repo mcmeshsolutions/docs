@@ -21,8 +21,12 @@ api.addListener(new MeshListener() {
 
 `api.revisions()` reads history from the gateway without booting a world (`revisionIds(limit)`, `readAux(revisionId, path)`); these block, never call them on the server thread.
 
-## Not in v0
-`requestTakeover()` always returns false. The epoch-fenced lock, pub/sub, RPC, tick scheduler and the SPIs of the roadmap (8.3, v1) do not exist yet. Island message bus, compute pool and the other multi-host sharding pieces are gated on the sharding research.
+## v1 pieces that exist
+`api.locks()` gives named locks kept by the gateway and fenced by the host epoch: `tryLock(owner, name, ttl)` returns a `Held` with a fence token or nothing (somebody else holds it, this machine is not the host, the gateway is unreachable); calling it again as the same owner renews and keeps the token; `unlock(owner, name)` frees it. A lock taken under an older epoch is void, so a new host never waits for a lock that a dead host held, and the token grows every time a lock changes hands: a service fed by two hosts should refuse the smaller token. Names and owners are 1 to 64 characters of `a-z 0-9 . _ -` (use your mod id as the owner). Calls block on the network: not on the server thread. Over HTTP: `POST /v1/leases/:id/lock` and `/unlock` (lease holder only), `GET /v1/worlds/:id/locks` (members).
 
+`api.scheduler().submit(runnable)` runs work on the server thread, in order, under a per-tick budget: 2 ms when the host is healthy, 0.5 ms when it has started shedding load, nothing while it sheds heavily. At least one task runs per tick when there is budget. A task that throws is logged and skipped.
+
+## Not built
+`requestTakeover()` always returns false: asking a stronger machine to take hosting needs a server that can start on the asking machine, which today only the Synced Worlds screen and the anchor service do. Pub/sub, RPC, synced variables and the tunnel API are not built: with one host at a time there is no remote peer for a mod to call, and the game's own networking already covers host and players. They come back when multi-host sharding is proven. The SPIs (`MeshAuthProvider`, `MeshElectionPolicy`, `MeshQuarantineHandler`, `MeshTransportProvider`) are not built either, because they would let a mod change who may host or who may log in, which needs a security review first. Island message bus, compute pool and the other multi-host sharding pieces are gated on the sharding research.
 ## Compatibility manifest
 Besides the API, a mod can ship `data/<modid>/mcmesh_compat.json` (schema in `docs/mcmesh_compat.schema.json`). Applied today: `quarantine_rules.max_tick_micros` and `dimension_policies` `EPHEMERAL_NO_CAS`. A pack author can supply the same file for any mod as `config/mcmesh-compat/<modid>.json`.
