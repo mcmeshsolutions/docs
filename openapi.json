@@ -3135,6 +3135,27 @@
         }
       }
     },
+    "/v1/worldgen/demand": {
+      "get": {
+        "summary": "A worker asks which seeds it could generate tiles for",
+        "description": "Authorisation: a member allowed to host. Returns {demand: [{seed, profile}]} for queued tiles of worlds the device may help with, never its own hosted world. A worker derives its profile from its own seed, so it needs the seed before it starts a server.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/worldgen/claim": {
       "post": {
         "summary": "A worker asks for a tile to work on",
