@@ -774,6 +774,12 @@
             "minimum": 1,
             "maximum": 2,
             "description": "distinct devices that must report the same digest, default 2"
+          },
+          "halo": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 16,
+            "description": "chunks generated around a tile and thrown away, default 4; a tile keeps the value it was requested with"
           }
         }
       },
