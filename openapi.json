@@ -3439,6 +3439,66 @@
           }
         }
       }
+    },
+    "/v1/shards/{id}/host-ready": {
+      "post": {
+        "summary": "A shard host says its server is up",
+        "description": "Authorisation: the shard lease's device. Answers {ok}; nothing waits for it.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "epoch"
+                ],
+                "properties": {
+                  "epoch": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/shards/{lease}/merged": {
+      "post": {
+        "summary": "The main host has taken a shard's regions and players back",
+        "description": "Authorisation: the world's current host. Until then the shard's regions are reserved and its players are turned away at the relay. 409 NO_SUCH_SHARD, NOT_LEASE_HOLDER.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
