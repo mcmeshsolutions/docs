@@ -3227,6 +3227,218 @@
           }
         }
       }
+    },
+    "/v1/worlds/{id}/shards": {
+      "get": {
+        "summary": "Live shard leases and open offers of a world",
+        "description": "Authorisation: a member of the world. Returns {shards: [{id, device, regions}], offers: [{id, regions}]}.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "The main host sets regions aside for another machine",
+        "description": "Authorisation: the world's current host. regions is a list of {dim, x1, z1, x2, z2}, inclusive region (32 x 32 chunk) coordinates. 409 SHARD_OVERLAP when a region is already reserved, BAD_SHARD_REGIONS, NOT_LEASE_HOLDER. From then on the main host's WAL may not write chunks in these regions.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "regions"
+                ],
+                "properties": {
+                  "regions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/shards/claim": {
+      "post": {
+        "summary": "A machine that may host takes the oldest open offer",
+        "description": "Authorisation: a member allowed to host. Returns {grant: null} or {grant: {id, epoch, base_rev, regions, hmac_key, ttl_s, heartbeat_s}}. The shard lease writes only chunks inside its regions and the player files playerdata/, advancements/ and stats/.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/shards/{id}/heartbeat": {
+      "post": {
+        "summary": "A shard host stays alive",
+        "description": "Authorisation: the shard lease's device. A shard that misses heartbeats for the lease TTL ends, and what reached its last barrier becomes a RECOVERED revision.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "epoch"
+                ],
+                "properties": {
+                  "epoch": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/shards/{id}/wal": {
+      "post": {
+        "summary": "A shard host appends WAL frames",
+        "description": "Same frames and HMAC chain as /v1/leases/{id}/wal. 409 Rejected OUT_OF_SHARD for a chunk outside the shard's regions or an aux file that is not a player file.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "epoch",
+                  "frames"
+                ],
+                "properties": {
+                  "epoch": {
+                    "type": "integer"
+                  },
+                  "frames": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/shards/{id}/commit": {
+      "post": {
+        "summary": "A shard host seals its WAL into a revision",
+        "description": "The revision is built from the shard's frames up to its last barrier on top of whatever the head is, so shard commits and the main host's commits do not wait for each other. last ends the shard and returns its regions to the main host. kind is AUTOSAVE or SHUTDOWN.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "epoch"
+                ],
+                "properties": {
+                  "epoch": {
+                    "type": "integer"
+                  },
+                  "last": {
+                    "type": "boolean"
+                  },
+                  "kind": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
