@@ -759,6 +759,125 @@
           "anchors"
         ],
         "additionalProperties": false
+      },
+      "WorldgenSettings": {
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "quorum": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2,
+            "description": "distinct devices that must report the same digest, default 2"
+          }
+        }
+      },
+      "WorldgenTilesRequest": {
+        "type": "object",
+        "required": [
+          "profile",
+          "seed",
+          "dim",
+          "tiles"
+        ],
+        "properties": {
+          "profile": {
+            "type": "string",
+            "description": "hash of everything that decides generation (mods, configs, seed); a worker only gets tiles for its own profile"
+          },
+          "seed": {
+            "type": "string"
+          },
+          "dim": {
+            "type": "string",
+            "example": "minecraft:overworld"
+          },
+          "tiles": {
+            "type": "array",
+            "maxItems": 64,
+            "description": "south-west chunk [x, z] of each 32 x 32 tile, on the region grid",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        }
+      },
+      "WorldgenClaimRequest": {
+        "type": "object",
+        "required": [
+          "profile"
+        ],
+        "properties": {
+          "profile": {
+            "type": "string"
+          }
+        }
+      },
+      "WorldgenLeaf": {
+        "type": "object",
+        "required": [
+          "kind",
+          "cx",
+          "cz",
+          "hash"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "region",
+              "entities",
+              "poi"
+            ]
+          },
+          "cx": {
+            "type": "integer"
+          },
+          "cz": {
+            "type": "integer"
+          },
+          "hash": {
+            "type": "string",
+            "description": "sha256 of the chunk blob in the CAS, hex"
+          },
+          "frontier": {
+            "type": "boolean",
+            "description": "a chunk just outside the tile that carries the spill of its edge, not covered by the digest"
+          }
+        }
+      },
+      "WorldgenResult": {
+        "type": "object",
+        "required": [
+          "digest"
+        ],
+        "properties": {
+          "digest": {
+            "type": "string",
+            "description": "sha256 over the canonical per-chunk digests of the tile, hex"
+          },
+          "chunk_digests": {
+            "type": "string",
+            "description": "optional, the per-chunk digests concatenated as hex, kept for diagnosing a disagreement"
+          },
+          "leaves": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorldgenLeaf"
+            },
+            "description": "generator only: every chunk of the tile, blobs already uploaded"
+          }
+        }
       }
     }
   },
@@ -2817,6 +2936,257 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/worldgen": {
+      "get": {
+        "summary": "Distributed worldgen settings and tile counts",
+        "description": "Authorisation: member.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Turn distributed worldgen on or off for a world",
+        "description": "Authorisation: owner or admin. Off by default because it spends other members' CPU.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorldgenSettings"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/worldgen/tiles": {
+      "get": {
+        "summary": "Tiles ready to install, and tiles the peers never agreed on",
+        "description": "Authorisation: the world's current host (403 NOT_LEASE_HOLDER). Returns at most four ready tiles per call, each with the generator's chunk list.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Ask for tiles to be generated",
+        "description": "Authorisation: the world's current host. Idempotent per tile and profile; 409 WORLDGEN_OFF, TILE_NOT_ALIGNED, TILE_QUEUE_FULL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorldgenTilesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/worldgen/tiles/{tile}/consumed": {
+      "post": {
+        "summary": "The host has installed a tile or taken note of a refused one",
+        "description": "Authorisation: the world's current host.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worldgen/claim": {
+      "post": {
+        "summary": "A worker asks for a tile to work on",
+        "description": "Authorisation: a member allowed to host, who is not the world's current host. Returns {claim: null} when nothing fits the profile. A device holds one claim at a time, asking again resumes it. role is generate (upload the chunks, then report a digest and the chunk list) or verify (report a digest only).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorldgenClaimRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worldgen/tiles/{tile}/result": {
+      "put": {
+        "summary": "A worker reports what it generated",
+        "description": "Authorisation: the device holding the claim. outcome is waiting, ready, retry (the peers disagreed, another round follows) or rejected (they never agree, the pack does not reproduce tiles). 409 NO_CLAIM, CLAIM_EXPIRED, TILE_INCOMPLETE, LEAF_OUT_OF_TILE, LEAVES_REQUIRED, LEAVES_NOT_ALLOWED; 400 MISSING_BLOB when a listed chunk was never uploaded.",
+        "parameters": [
+          {
+            "name": "tile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorldgenResult"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "default": {
             "description": "An error",
