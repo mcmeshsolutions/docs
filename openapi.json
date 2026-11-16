@@ -3632,6 +3632,69 @@
           }
         }
       }
+    },
+    "/v1/worlds/{id}/candidates": {
+      "get": {
+        "summary": "Devices currently online and bidding to host this world",
+        "description": "Authorisation: world owner, gateway admin, or SSO superadmin.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/worlds/{id}/force-unlock": {
+      "post": {
+        "summary": "Ends the world's live lease right now, as if it had expired, and lets the normal recovery path re-elect",
+        "description": "Authorisation: gateway admin or SSO superadmin.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/worlds/{id}/force-switch-host": {
+      "post": {
+        "summary": "Ends the world's live lease, even a healthy one, and hands hosting to a specific online candidate device",
+        "description": "Authorisation: gateway admin or SSO superadmin.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
