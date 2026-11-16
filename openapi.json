@@ -3499,6 +3499,139 @@
           }
         }
       }
+    },
+    "/v1/motd": {
+      "get": {
+        "summary": "Gateway MOTD",
+        "description": "Public gateway-wide message of the day.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/admin/motd": {
+      "put": {
+        "summary": "Set or clear the gateway MOTD",
+        "description": "Authorisation: gateway admin, SSO superadmin, or op:lifecycle API key.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "motd": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/quotas": {
+      "put": {
+        "summary": "Set storage, world count, retention or relay limits for a world, user, or default (*)",
+        "description": "Authorisation: gateway admin, SSO superadmin, or op:lifecycle API key.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "scope",
+                  "id"
+                ],
+                "properties": {
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "user",
+                      "world"
+                    ]
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "storage_bytes": {
+                    "type": "integer"
+                  },
+                  "world_count": {
+                    "type": "integer"
+                  },
+                  "keep_revisions": {
+                    "type": "integer"
+                  },
+                  "keep_days": {
+                    "type": "integer"
+                  },
+                  "max_guests": {
+                    "type": "integer"
+                  },
+                  "relay_bytes_month": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/activity": {
+      "get": {
+        "summary": "Hosting time and session count per player for a world",
+        "description": "Authorisation: world owner, gateway admin, or SSO superadmin.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
