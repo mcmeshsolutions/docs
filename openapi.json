@@ -39,6 +39,28 @@
         ],
         "additionalProperties": false
       },
+      "PulseHandover": {
+        "type": "object",
+        "properties": {
+          "target_device": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "PulseFreeze": {
+        "type": "object",
+        "properties": {
+          "frozen": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "frozen"
+        ],
+        "additionalProperties": false
+      },
       "IdResult": {
         "type": "object",
         "properties": {
@@ -1844,6 +1866,150 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Revert"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/pulse": {
+      "get": {
+        "summary": "Live pulse of world hosting, TPS, and failover readiness",
+        "description": "Authorisation: member or admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/pulse/handover": {
+      "post": {
+        "summary": "Initiate zero-SSH host handover to backup candidate",
+        "description": "Authorisation: world admin or gateway admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PulseHandover"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/pulse/flush": {
+      "post": {
+        "summary": "Trigger immediate zero-SSH WAL barrier flush",
+        "description": "Authorisation: world admin or gateway admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/pulse/freeze": {
+      "post": {
+        "summary": "Toggle zero-SSH emergency lag freeze",
+        "description": "Authorisation: world admin or gateway admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PulseFreeze"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
