@@ -1594,6 +1594,53 @@
         }
       }
     },
+    "/v1/worlds/{id}/digest": {
+      "get": {
+        "summary": "Get world patch notes and FTB quests digest",
+        "description": "Returns regional construction deltas, completed quests, and milestone achievements since player session.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "player",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/worlds/{id}/revert": {
       "post": {
         "summary": "Revert the world to a revision",
