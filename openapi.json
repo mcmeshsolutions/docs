@@ -916,6 +916,68 @@
         "security": []
       }
     },
+    "/v1/contraptions/inspect": {
+      "post": {
+        "summary": "Inspect a Create contraption or schematic",
+        "description": "Parses NBT or JSON schematic and returns kinetic stress and BOM breakdown.",
+        "parameters": [
+          {
+            "name": "rpm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/contraptions/demo": {
+      "get": {
+        "summary": "Get showcase Create contraption",
+        "description": "Returns demo automated kinetic press and mixer contraption.",
+        "parameters": [
+          {
+            "name": "rpm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/.well-known/mcmesh-gateway.json": {
       "get": {
         "summary": "Gateway discovery document",
