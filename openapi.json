@@ -3545,6 +3545,129 @@
         }
       }
     },
+    "/v1/admin/security/shield": {
+      "get": {
+        "summary": "Get Security Shield status, active bans, and recent failed auth log",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Security Shield status and telemetry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "config", "stats", "bans", "failed_auth_log"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "config": { "type": "object" },
+                    "stats": { "type": "object" },
+                    "bans": { "type": "array", "items": { "type": "object" } },
+                    "failed_auth_log": { "type": "array", "items": { "type": "object" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/security/bans": {
+      "post": {
+        "summary": "Create an IP, CIDR subnet, or token key ban",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["target", "kind"],
+                "properties": {
+                  "target": { "type": "string" },
+                  "kind": { "type": "string", "enum": ["ip", "cidr", "key"] },
+                  "reason": { "type": "string" },
+                  "duration_s": { "type": "integer", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ban created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "ban"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "ban": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/security/bans/{id}": {
+      "delete": {
+        "summary": "Remove a security ban by ID",
+        "description": "Authorisation: admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ban removed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "deleted"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "deleted": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/security/clear-jail": {
+      "post": {
+        "summary": "Clear all Fail2Ban auto-jailed IPs and reset failure counters",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Auto-jail cleared",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "cleared"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "cleared": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
