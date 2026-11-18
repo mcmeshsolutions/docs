@@ -3796,6 +3796,63 @@
         }
       }
     },
+    "/healthz": {
+      "get": {
+        "summary": "Public health check endpoint for Uptime Kuma, Gatus, and orchestrators",
+        "description": "Verifies SQLite database responsiveness and returns gateway health telemetry.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Gateway is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status", "uptime_s", "worlds_total", "live_leases", "tunnels_active", "maintenance", "version"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": { "type": "string" },
+                    "uptime_s": { "type": "integer" },
+                    "worlds_total": { "type": "integer" },
+                    "live_leases": { "type": "integer" },
+                    "tunnels_active": { "type": "integer" },
+                    "maintenance": { "type": "boolean" },
+                    "version": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/monitoring/homeassistant": {
+      "get": {
+        "summary": "Home Assistant MQTT Auto-Discovery and RESTful sensor state payload",
+        "description": "Returns MQTT discovery sensor definitions and live gateway telemetry state.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Home Assistant discovery and state payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "discovery_prefix", "state_topic", "state", "discovery_configs"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "discovery_prefix": { "type": "string" },
+                    "state_topic": { "type": "string" },
+                    "state": { "type": "object" },
+                    "discovery_configs": { "type": "array", "items": { "type": "object" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
