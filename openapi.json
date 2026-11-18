@@ -3668,6 +3668,70 @@
         }
       }
     },
+    "/v1/auth/sso/providers": {
+      "get": {
+        "summary": "Discover enabled Homelab SSO / Forward-Auth and OpenID Connect providers",
+        "description": "Public endpoint returning whether Forward-Auth and OIDC are active.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "SSO provider capabilities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "forward_auth", "oidc_enabled"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "forward_auth": { "type": "boolean" },
+                    "oidc_enabled": { "type": "boolean" },
+                    "oidc_issuer": { "type": "string", "nullable": true },
+                    "oidc_authorize_url": { "type": "string", "nullable": true }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/oidc/login": {
+      "get": {
+        "summary": "Initiate OpenID Connect (OIDC) authorization redirect",
+        "description": "Generates CSRF state and redirects to the configured OIDC provider.",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirect to OIDC authorization endpoint"
+          }
+        }
+      }
+    },
+    "/v1/auth/oidc/callback": {
+      "get": {
+        "summary": "OpenID Connect (OIDC) authorization code callback",
+        "description": "Exchanges code for tokens, provisions SSO user, sets session cookie, and redirects to /panel.",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to /panel with mcmesh_sso session cookie"
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
