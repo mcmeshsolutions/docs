@@ -3364,6 +3364,98 @@
         }
       }
     },
+    "/v1/admin/hot-reload": {
+      "post": {
+        "summary": "Trigger zero-downtime hot reload and engage Virtual Limbo",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Hot reload readiness and Virtual Limbo status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status", "grace_period_s", "limbo_engaged", "stats"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": { "type": "string" },
+                    "grace_period_s": { "type": "integer" },
+                    "limbo_engaged": { "type": "boolean" },
+                    "stats": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grace_period_s": { "type": "integer" },
+                  "engage_limbo": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/hot-reload/status": {
+      "get": {
+        "summary": "Inspect hot reload and Virtual Limbo state",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Hot reload telemetry and limbo metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "uptime_s", "stats", "reuseport_supported"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "uptime_s": { "type": "integer" },
+                    "stats": { "type": "object" },
+                    "reuseport_supported": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/hot-reload/drain": {
+      "post": {
+        "summary": "Set gateway into graceful drain mode",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Drain status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "draining", "stats"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "draining": { "type": "boolean" },
+                    "stats": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
