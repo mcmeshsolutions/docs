@@ -1641,6 +1641,45 @@
         }
       }
     },
+    "/v1/worlds/{id}/quests": {
+      "get": {
+        "summary": "Get live FTB Quest progression dependency tree",
+        "description": "Returns quest chapters, nodes, dependencies, and completed checkmarks.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "team",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/worlds/{id}/revert": {
       "post": {
         "summary": "Revert the world to a revision",
