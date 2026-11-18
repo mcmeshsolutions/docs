@@ -1067,6 +1067,43 @@
         "security": []
       }
     },
+    "/v1/proxy/test": {
+      "get": {
+        "summary": "Automated reverse proxy header self-test",
+        "description": "Authorisation: none. Analyzes incoming HTTP headers (X-Forwarded-For, X-Forwarded-Proto, CF-Connecting-IP, Host, Upgrade) to verify reverse proxy configuration and report actionable warnings.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Proxy diagnostics verdict and header breakdown",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "client_ip", "proto", "host", "proxy_type", "websocket_ready", "warnings", "headers_detected"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "client_ip": { "type": "string" },
+                    "proto": { "type": "string" },
+                    "host": { "type": "string" },
+                    "proxy_type": { "type": "string" },
+                    "websocket_ready": { "type": "boolean" },
+                    "warnings": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "headers_detected": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/v1/contraptions/inspect": {
       "post": {
         "summary": "Inspect a Create contraption or schematic",
