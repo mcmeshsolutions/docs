@@ -1872,6 +1872,37 @@
         }
       }
     },
+    "/v1/worlds/{id}/p2p-meter": {
+      "get": {
+        "summary": "P2P bandwidth offload scorecard and cloud cost savings",
+        "description": "Authorisation: member or admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/worlds/{id}/pulse": {
       "get": {
         "summary": "Live pulse of world hosting, TPS, and failover readiness",
