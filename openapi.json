@@ -916,6 +916,29 @@
         "security": []
       }
     },
+    "/v1/doctor": {
+      "get": {
+        "summary": "Gateway self-host diagnostics doctor",
+        "description": "Authorisation: none. Runs automated diagnostic suite on database, storage, listeners, proxy, and auth reachability.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/v1/contraptions/inspect": {
       "post": {
         "summary": "Inspect a Create contraption or schematic",
