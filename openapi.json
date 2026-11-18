@@ -3456,6 +3456,95 @@
         }
       }
     },
+    "/v1/admin/s3/status": {
+      "get": {
+        "summary": "Get automated S3 disaster replication status",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "S3 replication status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": { "type": "boolean" },
+                        "bucket": { "type": "string" },
+                        "endpoint": { "type": "string" },
+                        "region": { "type": "string" },
+                        "prefix": { "type": "string" },
+                        "last_sync_at": { "type": "integer", "nullable": true },
+                        "last_error": { "type": "string", "nullable": true },
+                        "last_snapshot": { "type": "string", "nullable": true },
+                        "total_synced_blobs": { "type": "integer" },
+                        "total_synced_bytes": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/s3/sync": {
+      "post": {
+        "summary": "Trigger immediate S3 disaster replication sync",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sync completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status", "report"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": { "type": "string" },
+                    "report": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/s3/test": {
+      "post": {
+        "summary": "Test S3 connectivity and bucket permissions",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Connectivity test result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "latency_ms", "bucket", "message"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "latency_ms": { "type": "integer" },
+                    "bucket": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
