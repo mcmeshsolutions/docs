@@ -884,6 +884,33 @@
             "description": "generator only: every chunk of the tile, blobs already uploaded"
           }
         }
+      },
+      "SetupRequest": {
+        "type": "object",
+        "properties": {
+          "admin_name": {
+            "type": "string"
+          },
+          "community_name": {
+            "type": "string"
+          },
+          "pack_name": {
+            "type": "string"
+          },
+          "motd": {
+            "type": "string"
+          },
+          "initial_world_id": {
+            "type": "string"
+          },
+          "initial_world_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "admin_name"
+        ],
+        "additionalProperties": false
       }
     }
   },
@@ -893,6 +920,85 @@
     }
   ],
   "paths": {
+    "/v1/setup/status": {
+      "get": {
+        "summary": "First-time setup status check",
+        "description": "Authorisation: none. Checks whether the gateway has an admin configured.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/setup": {
+      "post": {
+        "summary": "First-time gateway bootstrap setup",
+        "description": "Authorisation: none. Configures admin user, community branding, and optional initial world.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/setup/discord-card": {
+      "get": {
+        "summary": "Render Discord community invite card SVG",
+        "description": "Authorisation: none. Returns dynamically rendered SVG invite card for rich embeds.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/v1/status": {
       "get": {
         "summary": "Public status counters",
