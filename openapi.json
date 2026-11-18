@@ -3732,6 +3732,70 @@
         }
       }
     },
+    "/v1/admin/tailscale/status": {
+      "get": {
+        "summary": "Get Tailscale Tailnet node status and MagicDNS coordinates",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Tailscale status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/tailscale/up": {
+      "post": {
+        "summary": "Bring up or update Tailscale node registration and advertised endpoint",
+        "description": "Authorisation: admin.",
+        "parameters": [],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hostname": { "type": "string", "nullable": true },
+                  "magic_dns": { "type": "string", "nullable": true },
+                  "tailnet_ip": { "type": "string", "nullable": true },
+                  "funnel": { "type": "boolean", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated Tailscale status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
