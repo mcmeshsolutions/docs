@@ -3853,6 +3853,39 @@
         }
       }
     },
+    "/v1/widget/homelab": {
+      "get": {
+        "summary": "Unified homelab dashboard widget endpoint (Homepage, Glance, Homarr, Dashy)",
+        "description": "Public endpoint returning flat summary metrics for homelab dashboard widgets.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Homelab widget telemetry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "status", "worlds_total", "worlds_active", "live_leases", "tunnels_active", "players_registered", "revisions_total", "uptime_s", "version"],
+                  "properties": {
+                    "ok": { "type": "boolean" },
+                    "status": { "type": "string" },
+                    "worlds_total": { "type": "integer" },
+                    "worlds_active": { "type": "integer" },
+                    "live_leases": { "type": "integer" },
+                    "tunnels_active": { "type": "integer" },
+                    "players_registered": { "type": "integer" },
+                    "revisions_total": { "type": "integer" },
+                    "last_commit_age_s": { "type": "integer", "nullable": true },
+                    "uptime_s": { "type": "integer" },
+                    "version": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users/{name}": {
       "get": {
         "summary": "Look up a user",
