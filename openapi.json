@@ -1524,6 +1524,76 @@
         }
       }
     },
+    "/v1/worlds/{id}/heatmap": {
+      "get": {
+        "summary": "Get spatial activity heatmap for building and excavation",
+        "description": "Returns top-down 2D spatial heatmap coordinates and intensities.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/worlds/{id}/hall-of-fame": {
+      "get": {
+        "summary": "Get world hall of fame leaderboards and milestones",
+        "description": "Returns top builders, excavators, and historical milestones.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "An error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/worlds/{id}/revert": {
       "post": {
         "summary": "Revert the world to a revision",
